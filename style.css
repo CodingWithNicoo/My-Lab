@@ -1,41 +1,63 @@
-/* ---------------- Fondo general ---------------- */
+/* ------------------ FONDO: DEGRADADO MORADO SIN BANDAS ------------------ */
+
 body {
   margin: 0;
   font-family: Arial;
-  background: linear-gradient(#2e005c, #12002f);
   color: white;
   overflow-x: hidden;
+  background: linear-gradient(180deg, #2a0066 0%, #14003a 100%);
+  position: relative;
 }
 
-/* glow morado */
-h1, h2, h3, p, a {
-  text-shadow: 0 0 8px #d5aaff;
-}
-
-/* ---------------- Fondo estrellas ---------------- */
-#stars {
+/* Ruido CSS (NO imagen) para eliminar banding */
+body::before {
+  content: "";
   position: fixed;
   inset: 0;
-  z-index: -1;
+  pointer-events: none;
+  z-index: -5;
+
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.03) 0%, transparent 60%),
+    radial-gradient(circle at 80% 70%, rgba(255,255,255,0.02) 0%, transparent 70%),
+    repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,0.01) 0px,
+      rgba(255,255,255,0.01) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  opacity: 0.25;
+}
+
+/* ------------------ ESTRELLAS ------------------ */
+
+#stars {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: -3;
   overflow: hidden;
 }
 
 .star {
   position: absolute;
-  border-radius: 50%;
   background: white;
+  border-radius: 50%;
   opacity: 0.8;
   animation: twinkle 3s infinite ease-in-out;
 }
 
 @keyframes twinkle {
-  0%, 100% { opacity: .2; }
+  0%, 100% { opacity: 0.3; }
   50% { opacity: 1; }
 }
 
-/* shake */
+/* Shake idle */
 .shake {
-  animation: shake .5s infinite;
+  animation: shake 0.5s infinite;
 }
 
 @keyframes shake {
@@ -46,106 +68,77 @@ h1, h2, h3, p, a {
   100% { transform: translate(0,0); }
 }
 
-/* ---------------- Menú desktop cristal ---------------- */
-nav {
+/* ------------------ MENÚ (como lo tenías antes) ------------------ */
+
+.side-menu {
   position: fixed;
+  top: 20px;
   left: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 200px;
+  width: 220px;
   padding: 20px;
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(12px);
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,.2);
-  z-index: 10;
-  transition: .3s;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 18px;
+  z-index: 1000;
+  transition: 0.3s ease;
 }
 
-nav ul {
+.side-menu ul {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 30px 0 0 0;
 }
 
-nav li {
-  margin: 20px 0;
+.side-menu li {
+  margin: 15px 0;
 }
 
-nav a {
-  color: white;
+.side-menu a {
   text-decoration: none;
-  font-size: 20px;
+  color: white;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  opacity: 0.9;
+  transition: 0.2s;
 }
 
-.emoji {
-  display: none; /* en desktop no se ven */
+.side-menu a:hover {
+  opacity: 1;
 }
 
-/* ---------------- Menú móvil en círculo ---------------- */
-.menu-btn {
+.menu-toggle {
   display: none;
 }
 
-@media (max-width: 768px) {
+/* ------------------ MÓVIL ------------------ */
 
-  nav {
-    left: 20px;
-    bottom: 20px;
-    top: auto;
-    transform: none;
+@media (max-width: 768px) {
+  .side-menu {
     width: 70px;
-    height: 70px;
-    padding: 0;
-    border-radius: 50%;
-    display: flex;
-    justify-content:center;
-    align-items:center;
-    overflow:hidden;
-  }
-
-  nav ul {
-    display:none;
-  }
-
-  nav.open {
-    width: 200px;
-    height: 220px;
-    border-radius: 20px;
     padding: 15px;
+  }
+
+  .side-menu ul span {
+    display: none;
+  }
+
+  .menu-toggle {
     display: block;
+    font-size: 24px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: white;
   }
 
-  nav.open ul {
-    display:block;
+  .side-menu.open {
+    width: 220px;
   }
 
-  .emoji {
-    display:inline;
-  }
-
-  .menu-btn {
-    display:block;
-    position:absolute;
-    font-size:30px;
-    background:none;
-    color:white;
-    border:none;
-    left:50%;
-    top:50%;
-    transform:translate(-50%, -50%);
-    z-index:20;
-  }
-}
-
-/* ---------------- Contenido ---------------- */
-.content {
-  padding: 30px;
-  margin-left: 250px;
-}
-
-@media (max-width: 768px) {
-  .content {
-    margin-left: 0;
+  .side-menu.open ul span {
+    display: inline;
   }
 }
