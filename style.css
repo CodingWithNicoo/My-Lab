@@ -9,7 +9,8 @@ html, body {
   height: 100%;
   color: #e8c9ff;
   text-align: center;
-  background: linear-gradient(160deg, #130022, #26003b, #180028);
+  padding-top: 100px;
+  background: none;
 }
 
 /* Text Glow */
@@ -24,18 +25,14 @@ h1, h2, h3, h4 {
                0 0 28px rgba(200,120,255,0.6);
 }
 
-/* Add spacing for desktop */
-body {
-  padding-top: 90px;
-}
-
 /* ============================
-   BACKGROUND LAYER + NOISE
+   BACKGROUND LAYER
 ============================ */
 #background-layer {
   position: fixed;
   inset: 0;
-  z-index: -3;
+  z-index: -2;
+  background: radial-gradient(circle at center, #1d072c, #0d0216 70%);
   pointer-events: none;
 }
 
@@ -43,10 +40,8 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background-image:
-    radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
-  background-size: 3px 3px;
-  opacity: 0.28;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0... (lo dejo igual) ");
+  opacity: 0.18;
   mix-blend-mode: screen;
 }
 
@@ -56,17 +51,18 @@ body {
 #stars-layer {
   position: fixed;
   inset: 0;
-  z-index: -2;
+  z-index: -1;
   pointer-events: none;
 }
 
 .star {
   position: absolute;
   border-radius: 50%;
+  opacity: 0.9;
 }
 
 @keyframes twinkle {
-  0%,100% { opacity: 0.3; }
+  0%,100% { opacity: 0.2; }
   50%     { opacity: 1; }
 }
 
@@ -77,12 +73,10 @@ body {
   100% { transform: translate(0,0); }
 }
 
-#stars-layer.shake {
-  animation: shake 0.8s ease;
-}
+#stars-layer.shake { animation: shake 0.8s ease; }
 
 /* ============================
-   DESKTOP MENU – centered & glass
+   DESKTOP MENU
 ============================ */
 #site-menu {
   position: fixed;
@@ -90,14 +84,13 @@ body {
   left: 50%;
   transform: translateX(-50%);
   background: rgba(50,20,80,0.45);
-  padding: 10px 22px;
+  padding: 10px 20px;
   border-radius: 20px;
   backdrop-filter: blur(10px);
   box-shadow: 0 0 12px rgba(180,120,255,0.4);
   display: flex;
   gap: 25px;
   z-index: 999;
-  transition: 0.35s ease;
 }
 
 #site-menu a {
@@ -114,36 +107,32 @@ body {
   display: none;
 }
 
-/* ========== MOBILE MODE ========== */
+
+/* -------- MOBILE STYLES -------- */
 @media (max-width: 768px) {
 
-  body {
-    padding-top: 0;
-  }
-
-  /* Desktop menu becomes collapsed bubble */
+  /* Ocultar estilo de menú escritorio */
   #site-menu {
-    position: fixed;
+    bottom: 90px;
     top: auto;
-    bottom: 100px;
-    left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    flex-direction: column;
-    background: rgba(60,20,100,0.0);
+    background: none;
     padding: 0;
     gap: 0;
-    opacity: 0;
+    flex-direction: column;
     pointer-events: none;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 0.35s ease;
   }
 
   #site-menu.mobile-open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
     background: rgba(60,20,100,0.65);
-    padding: 18px 25px;
+    padding: 20px;
     border-radius: 18px;
     box-shadow: 0 0 25px rgba(180,120,255,0.6);
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-    pointer-events: auto;
   }
 
   #site-menu a {
@@ -152,7 +141,7 @@ body {
     font-size: 17px;
   }
 
-  /* Floating circular button */
+  /* Botón redondo */
   #menu-toggle {
     display: block;
     position: fixed;
@@ -166,7 +155,7 @@ body {
     border: 2px solid rgba(200,150,255,0.6);
     backdrop-filter: blur(12px);
     box-shadow: 0 0 18px rgba(200,100,255,0.6);
-    z-index: 2000;
+    z-index: 1001;
   }
 
   #menu-toggle span {
@@ -179,13 +168,15 @@ body {
     transition: 0.35s ease;
   }
 
-  /* Hamburger → X animation */
+  /* Animación del menú */
   #menu-toggle.open span:nth-child(1) {
     transform: translateY(9px) rotate(45deg);
   }
+
   #menu-toggle.open span:nth-child(2) {
     opacity: 0;
   }
+
   #menu-toggle.open span:nth-child(3) {
     transform: translateY(-9px) rotate(-45deg);
   }
