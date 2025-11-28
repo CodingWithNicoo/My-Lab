@@ -9,7 +9,7 @@ html, body {
   height: 100%;
   color: #e8c9ff;
   text-align: center;
-  padding-top: 100px;
+  background: linear-gradient(160deg, #130022, #26003b, #180028);
 }
 
 /* Text Glow */
@@ -24,26 +24,29 @@ h1, h2, h3, h4 {
                0 0 28px rgba(200,120,255,0.6);
 }
 
+/* Add spacing for desktop */
+body {
+  padding-top: 90px;
+}
+
 /* ============================
-   BACKGROUND LAYER (behind stars)
+   BACKGROUND LAYER + NOISE
 ============================ */
 #background-layer {
   position: fixed;
   inset: 0;
-  z-index: -2;
-  background: radial-gradient(circle at center, #1d072c, #0d0216 70%);
+  z-index: -3;
   pointer-events: none;
-
-  /* Anti-banding (CSS noise layer) */
-  background-blend-mode: overlay;
 }
 
 #background-layer::before {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxIiBoZWlnaHQ9IjEiPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InJnYmEoMCwwLDAsMC4wNSkiLz48L3N2Zz4=");
-  opacity: 0.18;
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 3px 3px;
+  opacity: 0.28;
   mix-blend-mode: screen;
 }
 
@@ -53,18 +56,17 @@ h1, h2, h3, h4 {
 #stars-layer {
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: -2;
   pointer-events: none;
 }
 
 .star {
   position: absolute;
   border-radius: 50%;
-  opacity: 0.9;
 }
 
 @keyframes twinkle {
-  0%,100% { opacity: 0.2; }
+  0%,100% { opacity: 0.3; }
   50%     { opacity: 1; }
 }
 
@@ -88,13 +90,14 @@ h1, h2, h3, h4 {
   left: 50%;
   transform: translateX(-50%);
   background: rgba(50,20,80,0.45);
-  padding: 10px 20px;
+  padding: 10px 22px;
   border-radius: 20px;
   backdrop-filter: blur(10px);
   box-shadow: 0 0 12px rgba(180,120,255,0.4);
   display: flex;
   gap: 25px;
   z-index: 999;
+  transition: 0.35s ease;
 }
 
 #site-menu a {
@@ -111,26 +114,36 @@ h1, h2, h3, h4 {
   display: none;
 }
 
-/* Mobile version */
+/* ========== MOBILE MODE ========== */
 @media (max-width: 768px) {
 
-  /* Hide desktop menu look */
+  body {
+    padding-top: 0;
+  }
+
+  /* Desktop menu becomes collapsed bubble */
   #site-menu {
-    bottom: 90px;
+    position: fixed;
     top: auto;
-    background: none;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    flex-direction: column;
+    background: rgba(60,20,100,0.0);
     padding: 0;
     gap: 0;
-    flex-direction: column;
+    opacity: 0;
     pointer-events: none;
   }
 
   #site-menu.mobile-open {
-    pointer-events: auto;
     background: rgba(60,20,100,0.65);
-    padding: 20px;
+    padding: 18px 25px;
     border-radius: 18px;
     box-shadow: 0 0 25px rgba(180,120,255,0.6);
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
   }
 
   #site-menu a {
@@ -153,7 +166,7 @@ h1, h2, h3, h4 {
     border: 2px solid rgba(200,150,255,0.6);
     backdrop-filter: blur(12px);
     box-shadow: 0 0 18px rgba(200,100,255,0.6);
-    z-index: 1001;
+    z-index: 2000;
   }
 
   #menu-toggle span {
@@ -163,39 +176,17 @@ h1, h2, h3, h4 {
     background: #f8e2ff;
     margin: 7px auto;
     border-radius: 10px;
-    transition: 0.3s;
-  }
-   @media (max-width: 768px) {
-
-  #site-menu {
-    opacity: 0;
-    transform: translateY(20px);
     transition: 0.35s ease;
-    pointer-events: none;
   }
 
-  #site-menu.mobile-open {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
+  /* Hamburger → X animation */
+  #menu-toggle.open span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
   }
-}
-/* default hamburger */
-#menu-toggle span {
-  transition: 0.35s ease;
-}
-
-/* cuando el menú está abierto */
-#menu-toggle.open span:nth-child(1) {
-  transform: translateY(9px) rotate(45deg);
-}
-
-#menu-toggle.open span:nth-child(2) {
-  opacity: 0;
-}
-
-#menu-toggle.open span:nth-child(3) {
-  transform: translateY(-9px) rotate(-45deg);
-}
-
+  #menu-toggle.open span:nth-child(2) {
+    opacity: 0;
+  }
+  #menu-toggle.open span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+  }
 }
