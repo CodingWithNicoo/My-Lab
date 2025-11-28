@@ -1,4 +1,4 @@
-/* Reset básico y fondo */
+/* Reset básico */
 * {
   margin: 0;
   padding: 0;
@@ -10,51 +10,69 @@ html, body {
   height: 100%;
   overflow: hidden;
   font-family: Arial, sans-serif;
-  background: #1a0033; /* morado oscuro */
+  background: linear-gradient(to bottom, #1a0033, #300066);
   color: white;
   position: relative;
 }
 
-/* Fondo de estrellas */
-.stars, .twinkling {
+/* Fondo de estrellas estáticas */
+.stars {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  background: transparent;
   z-index: 0;
 }
 
-/* Generación de estrellas con CSS */
-.stars {
+.stars::after {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
   background: transparent;
+  box-shadow:
+    20px 30px white,
+    100px 150px white,
+    200px 80px white,
+    300px 400px white,
+    400px 220px white,
+    500px 350px white,
+    600px 100px white,
+    700px 300px white,
+    800px 50px white,
+    900px 420px white,
+    1000px 150px white,
+    1100px 350px white,
+    1200px 80px white;
+}
+
+/* Animación de desplazamiento lento */
+.stars {
+  animation: moveStars 120s linear infinite;
+}
+
+@keyframes moveStars {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-200px, -400px); }
+}
+
+/* Estrellas parpadeantes */
+.twinkling {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  z-index: 1;
   box-shadow:
     50px 100px white,
     200px 300px white,
     400px 150px white,
     600px 400px white,
     800px 200px white,
-    1000px 350px white,
-    1200px 50px white;
-  animation: moveStars 60s linear infinite;
-}
-
-@keyframes moveStars {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-2000px); }
-}
-
-/* Estrellas parpadeantes */
-.twinkling {
-  background: transparent;
-  box-shadow:
-    100px 200px white,
-    300px 400px white,
-    500px 100px white,
-    700px 300px white,
-    900px 150px white;
-  animation: twinkle 3s infinite alternate;
+    1000px 350px white;
+  animation: twinkle 4s infinite alternate;
 }
 
 @keyframes twinkle {
@@ -63,20 +81,52 @@ html, body {
   100% { opacity: 1; }
 }
 
+/* Meteorito animado */
+.meteor {
+  position: absolute;
+  top: -50px;
+  left: -100px;
+  width: 2px;
+  height: 100px;
+  background: linear-gradient(45deg, white, rgba(255,255,255,0));
+  opacity: 0.8;
+  transform: rotate(45deg);
+  animation: meteor 6s linear infinite;
+}
+
+@keyframes meteor {
+  0% {
+    top: -50px;
+    left: -100px;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    top: 600px;
+    left: 1200px;
+    opacity: 0;
+  }
+}
+
 /* Contenido principal */
 .content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   text-align: center;
-  top: 40%;
+  top: 35%;
+  width: 100%;
 }
 
 h1 {
   font-size: 3em;
   color: #e0c3fc;
+  text-shadow: 0 0 10px #d0aaff;
 }
 
 p {
   font-size: 1.5em;
   color: #d0aaff;
+  text-shadow: 0 0 5px #e0c3fc;
 }
