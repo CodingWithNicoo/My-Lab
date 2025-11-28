@@ -33,7 +33,7 @@
 
 .side-menu a span {
   margin-left: 10px;
-  display: inline; /* mostrar texto en desktop */
+  display: inline;
 }
 
 /* Botón toggle (solo visible en móvil) */
@@ -46,21 +46,21 @@
   border: none;
   color: white;
   cursor: pointer;
-  display: none; /* desktop no lo muestra */
+  display: none;
 }
 
 /* --- Mobile styles --- */
 @media (max-width: 768px) {
   .side-menu {
-    width: 60px; /* solo iconos */
+    width: 60px;
   }
 
   .side-menu a span {
-    display: none; /* no mostrar texto */
+    display: none;
   }
 
   .side-menu.open {
-    width: 200px; /* expandido con texto */
+    width: 200px;
   }
 
   .side-menu.open a span {
@@ -76,11 +76,20 @@
 .content {
   margin-left: 200px;
   padding: 20px;
+  transition: margin-left 0.3s ease;
 }
 
+/* Móvil: contenido cuando menú cerrado */
 @media (max-width: 768px) {
   .content {
     margin-left: 60px;
+  }
+}
+
+/* Móvil: contenido cuando menú ABIERTO */
+@media (max-width: 768px) {
+  .side-menu.open ~ .content {
+    margin-left: 200px;
   }
 }
 
