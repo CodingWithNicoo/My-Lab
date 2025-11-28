@@ -1,6 +1,8 @@
-const starsContainer = document.getElementById('stars');
+document.addEventListener('DOMContentLoaded', () => {
+  const starsContainer = document.getElementById('stars');
 
-if (starsContainer) {
+  if (!starsContainer) return; // si no hay #stars, salir
+
   const STAR_COUNT = 150;
   const stars = [];
 
@@ -75,7 +77,7 @@ if (starsContainer) {
     idleTimer = setTimeout(startShake, IDLE_DELAY);
   }
   resetIdleTimer();
-}
+});
 
 // --- Menú hide on scroll ---
 let lastScrollTop = 0;
