@@ -1,10 +1,47 @@
+/* --- Fondo de noche morada con degradado --- */
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #1a002b 0%, #3b0066 40%, #24004d 100%);
+  background-attachment: fixed;
+  overflow-x: hidden;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+/* --- Capa de estrellas --- */
+#stars {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+/* Estrellas */
+.star {
+  position: absolute;
+  background: radial-gradient(circle, white, rgba(255, 200, 255, 0.4));
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: twinkle 3s infinite ease-in-out;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.1; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+  100% { opacity: 0.1; transform: scale(0.8); }
+}
+
 /* --- Menú lateral --- */
 .side-menu {
   position: fixed;
   top: 0;
   left: 0;
   height: 100%;
-  width: 200px; /* desktop por defecto */
+  width: 200px;
   background: rgba(50, 0, 100, 0.7);
   backdrop-filter: blur(10px);
   z-index: 1000;
@@ -33,10 +70,8 @@
 
 .side-menu a span {
   margin-left: 10px;
-  display: inline;
 }
 
-/* Botón toggle (solo visible en móvil) */
 .menu-toggle {
   position: absolute;
   top: 10px;
@@ -49,7 +84,7 @@
   display: none;
 }
 
-/* --- Mobile styles --- */
+/* --- Responsive (móvil) --- */
 @media (max-width: 768px) {
   .side-menu {
     width: 60px;
@@ -79,53 +114,13 @@
   transition: margin-left 0.3s ease;
 }
 
-/* Móvil: contenido cuando menú cerrado */
+/* Móvil */
 @media (max-width: 768px) {
   .content {
     margin-left: 60px;
   }
-}
 
-/* Móvil: contenido cuando menú ABIERTO */
-@media (max-width: 768px) {
   .side-menu.open ~ .content {
     margin-left: 200px;
   }
-}
-
-/* --- Fondo de estrellas --- */
-#stars {
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  z-index: -1000;
-  overflow: hidden;
-}
-
-.star {
-  position: absolute;
-  background: white;
-  border-radius: 50%;
-  opacity: 0.8;
-  animation: twinkle 3s infinite ease-in-out;
-}
-
-@keyframes twinkle {
-  0%, 100% { opacity: 0.2; }
-  50% { opacity: 1; }
-}
-
-/* Shake idle */
-.shake {
-  animation: shake 0.5s infinite;
-}
-
-@keyframes shake {
-  0% { transform: translate(0,0); }
-  25% { transform: translate(1px,-1px); }
-  50% { transform: translate(-1px,1px); }
-  75% { transform: translate(1px,1px); }
-  100% { transform: translate(0,0); }
 }
