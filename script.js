@@ -1,19 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* -------- Estrellas -------- */
-  const starsContainer = document.getElementById("stars");
-  const STAR_COUNT = 150;
-
-  for (let i = 0; i < STAR_COUNT; i++) {
-    const star = document.createElement("div");
-    star.classList.add("star");
-
-    const size = Math.random() * 2 + 1;
-    star.style.width = `${size}px`;
-    star.style.height = `${size}px`;
-    star.style.top = `${Math.random() * 100}%`;document.addEventListener("DOMContentLoaded", () => {
-
-  /* -------- Estrellas -------- */
+  /* ESTRELLAS */
   const starsContainer = document.getElementById("stars");
   const STAR_COUNT = 150;
 
@@ -30,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     starsContainer.appendChild(star);
   }
 
-  /* --- Menú cristal + circular móvil --- */
+  /* MENÚ MÓVIL */
   const nav = document.getElementById("nav");
   const toggle = document.getElementById("menu-toggle");
 
@@ -39,19 +26,4 @@ document.addEventListener("DOMContentLoaded", () => {
       nav.classList.toggle("open");
     });
   }
-});
-
-    star.style.left = `${Math.random() * 100}%`;
-
-    starsContainer.appendChild(star);
-  }
-
-  /* --- Menú --- */
-  const nav = document.getElementById("nav");
-  const toggle = document.getElementById("menu-toggle");
-
-  toggle.addEventListener("click", () => {
-    nav.classList.toggle("open");
-  });
-
 });
