@@ -1,52 +1,27 @@
-<!doctype html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Contact — Nebula</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact – Space Theme</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="script.js"></script>
 </head>
 <body>
-<nav class="side-menu" id="site-menu" aria-label="Main navigation">
-<ul>
-<li><a href="index.html" data-link>Home <span class="mobile-emoji">🏠</span></a></li>
-<li><a href="projects.html" data-link>Projects <span class="mobile-emoji">🚀</span></a></li>
-<li><a href="contact.html" data-link>Contact <span class="mobile-emoji">✉️</span></a></li>
-<li><a href="about.html" data-link>About <span class="mobile-emoji">ℹ️</span></a></li>
-</ul>
-</nav>
+  <button id="menu-toggle" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 
+  <nav id="site-menu">
+    <a href="index.html">Home</a>
+    <a href="projects.html">Projects</a>
+    <a href="contact.html">Contact</a>
+    <a href="about.html">About</a>
+  </nav>
 
-<button id="menu-toggle" class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">
-<span class="bar"></span>
-</button>
-
-
-<main class="content contact-page">
-<header class="hero">
-<h1 class="glow">Contacto</h1>
-<p class="muted">Envíame un mensaje — formulario fingido (demo).</p>
-</header>
-
-
-<form class="card form" onsubmit="event.preventDefault(); alert('Demo: enviar formulario');">
-<label>Nombre
-<input type="text" placeholder="Tu nombre" required>
-</label>
-<label>Email
-<input type="email" placeholder="tu@ejemplo.com" required>
-</label>
-<label>Mensaje
-<textarea placeholder="Hola..." required></textarea>
-</label>
-<button class="btn" type="submit">Enviar</button>
-</form>
-
-
-<footer class="footer muted">También disponible en GitHub Pages</footer>
-</main>
-
-
-<script src="script.js"></script>
+  <main>
+    <h1>Contact</h1>
+    <p>You can place your contact info here.</p>
+  </main>
 </body>
 </html>
