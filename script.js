@@ -34,10 +34,9 @@ function moveStars(offsetX, offsetY) {
     const depth = parseFloat(star.dataset.depth);
     const baseSize = parseFloat(star.dataset.size);
 
-    const x = offsetX * depth * 10; // más movimiento según profundidad
+    const x = offsetX * depth * 10;
     const y = offsetY * depth * 10;
-
-    const scale = 1 + depth / 5; // estrellas cercanas se ven más grandes
+    const scale = 1 + depth / 5;
 
     star.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
   });
@@ -48,7 +47,7 @@ document.addEventListener('mousemove', e => {
   const centerX = window.innerWidth / 2;
   const centerY = window.innerHeight / 2;
 
-  const moveX = (e.clientX - centerX) / centerX;
+  const moveX = (e.clientX - centerX) / centerX; // -1 a 1
   const moveY = (e.clientY - centerY) / centerY;
 
   moveStars(moveX, moveY);
@@ -62,3 +61,12 @@ if (window.DeviceOrientationEvent) {
     moveStars(moveX, moveY);
   });
 }
+
+// Rotación lenta del cielo
+let angle = 0;
+function rotateStars() {
+  angle += 0.01; // velocidad de rotación
+  starsContainer.style.transform = `rotate(${angle}rad)`;
+  requestAnimationFrame(rotateStars);
+}
+rotateStars();
