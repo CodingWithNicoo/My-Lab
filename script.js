@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+
   // --- Toggle menú lateral ---
   const menu = document.getElementById('side-menu');
   const toggle = document.getElementById('menu-toggle');
