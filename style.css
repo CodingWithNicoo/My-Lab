@@ -1,37 +1,60 @@
-/* ===== GLOBAL LAYOUT ===== */
+/* ============================
+   GLOBAL BASE
+============================ */
 html, body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
   font-family: Inter, Arial, sans-serif;
-  background: radial-gradient(circle at center, #1d072c, #0d0216 70%);
   height: 100%;
   color: #e8c9ff;
   text-align: center;
   padding-top: 100px;
 }
 
-body {
-  text-shadow: 0 0 8px rgba(225,190,255,0.8), 0 0 16px rgba(200,150,255,0.6);
+/* Text Glow */
+body, p {
+  text-shadow: 0 0 8px rgba(225,190,255,0.8),
+               0 0 16px rgba(200,150,255,0.6);
 }
 
-/* HEADINGS */
 h1, h2, h3, h4 {
   color: #f0d6ff;
-  text-shadow: 0 0 12px rgba(235,200,255,0.9), 0 0 28px rgba(200,120,255,0.6);
+  text-shadow: 0 0 12px rgba(235,200,255,0.9),
+               0 0 28px rgba(200,120,255,0.6);
 }
 
-p {
-  color: #e8c9ff;
-  text-shadow: 0 0 6px rgba(225,190,255,0.7);
+/* ============================
+   BACKGROUND LAYER (behind stars)
+============================ */
+#background-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background: radial-gradient(circle at center, #1d072c, #0d0216 70%);
+  pointer-events: none;
+
+  /* Anti-banding (CSS noise layer) */
+  background-blend-mode: overlay;
 }
 
-/* ===== STARS LAYER ===== */
+#background-layer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxIiBoZWlnaHQ9IjEiPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InJnYmEoMCwwLDAsMC4wNSkiLz48L3N2Zz4=");
+  opacity: 0.18;
+  mix-blend-mode: screen;
+}
+
+/* ============================
+   STARFIELD LAYER
+============================ */
 #stars-layer {
   position: fixed;
   inset: 0;
-  pointer-events: none;
   z-index: -1;
+  pointer-events: none;
 }
 
 .star {
@@ -42,13 +65,13 @@ p {
 
 @keyframes twinkle {
   0%,100% { opacity: 0.2; }
-  50% { opacity: 1; }
+  50%     { opacity: 1; }
 }
 
 @keyframes shake {
-  0% { transform: translate(0,0); }
-  30% { transform: translate(-3px,1px); }
-  60% { transform: translate(3px,-2px); }
+  0%   { transform: translate(0,0); }
+  30%  { transform: translate(-3px,1px); }
+  60%  { transform: translate(3px,-2px); }
   100% { transform: translate(0,0); }
 }
 
@@ -56,7 +79,9 @@ p {
   animation: shake 0.8s ease;
 }
 
-/* ===== DESKTOP MENU ===== */
+/* ============================
+   DESKTOP MENU – centered & glass
+============================ */
 #site-menu {
   position: fixed;
   top: 20px;
@@ -79,21 +104,24 @@ p {
   font-weight: 500;
 }
 
-/* ===== MOBILE MENU ===== */
+/* ============================
+   MOBILE MENU
+============================ */
 #menu-toggle {
   display: none;
 }
 
-/* mobile */
+/* Mobile version */
 @media (max-width: 768px) {
 
+  /* Hide desktop menu look */
   #site-menu {
     bottom: 90px;
     top: auto;
-    flex-direction: column;
-    gap: 0;
     background: none;
     padding: 0;
+    gap: 0;
+    flex-direction: column;
     pointer-events: none;
   }
 
@@ -106,12 +134,12 @@ p {
   }
 
   #site-menu a {
-    display: block;
     padding: 12px 0;
+    display: block;
     font-size: 17px;
   }
 
-  /* Floating circular toggle */
+  /* Floating circular button */
   #menu-toggle {
     display: block;
     position: fixed;
@@ -122,8 +150,8 @@ p {
     height: 62px;
     border-radius: 50%;
     background: rgba(100,40,140,0.6);
-    backdrop-filter: blur(12px);
     border: 2px solid rgba(200,150,255,0.6);
+    backdrop-filter: blur(12px);
     box-shadow: 0 0 18px rgba(200,100,255,0.6);
     z-index: 1001;
   }
@@ -132,8 +160,8 @@ p {
     display: block;
     width: 26px;
     height: 3px;
-    margin: 7px auto;
     background: #f8e2ff;
+    margin: 7px auto;
     border-radius: 10px;
     transition: 0.3s;
   }
