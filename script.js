@@ -10,10 +10,13 @@
 
   function openMenu(){
     menu.classList.add('mobile-open');
+    toggle.classList.add('open');
     toggle.setAttribute('aria-expanded','true');
   }
+
   function closeMenu(){
     menu.classList.remove('mobile-open');
+    toggle.classList.remove('open');
     toggle.setAttribute('aria-expanded','false');
   }
 
@@ -33,9 +36,7 @@
         STARFIELD
   ====================== */
   const STAR_COUNT = Math.min(180, Math.round((window.innerWidth*window.innerHeight)/6000));
-  const starsLayer = document.createElement('div');
-  starsLayer.id = 'stars-layer';
-  document.body.appendChild(starsLayer);
+  const starsLayer = document.getElementById("stars-layer"); // <-- CORREGIDO (no crear 2 capas)
 
   const stars = [];
 
@@ -141,17 +142,3 @@
   });
 
 })();
-
-document.addEventListener("DOMContentLoaded", () => {
-
-  const toggle = document.getElementById("menu-toggle");
-  const menu = document.getElementById("site-menu");
-
-  toggle.addEventListener("click", () => {
-
-    menu.classList.toggle("mobile-open");
-    toggle.classList.toggle("open");
-
-  });
-
-});
