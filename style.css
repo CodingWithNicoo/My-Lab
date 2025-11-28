@@ -1,0 +1,76 @@
+/* Background colors and full-page setup */
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  color: white;
+  background: #1a0033; /* deep purple */
+}
+
+/* Stars layer */
+.stars {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  box-shadow: 
+    50px 100px white,
+    200px 300px white,
+    400px 150px white,
+    600px 400px white,
+    800px 200px white,
+    1000px 350px white,
+    1200px 50px white;
+  animation: starsMove 60s linear infinite;
+}
+
+/* Small animation to move stars */
+@keyframes starsMove {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-2000px); }
+}
+
+/* Twinkling overlay */
+.twinkling {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  box-shadow: 
+    100px 200px white,
+    300px 400px white,
+    500px 100px white,
+    700px 300px white,
+    900px 150px white;
+  animation: twinkle 3s infinite alternate;
+}
+
+@keyframes twinkle {
+  from { opacity: 0.2; }
+  to { opacity: 1; }
+}
+
+/* Page content on top */
+.content {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  top: 40%;
+}
+h1 {
+  font-size: 3em;
+  color: #e0c3fc;
+}
+p {
+  font-size: 1.5em;
+  color: #d0aaff;
+}
