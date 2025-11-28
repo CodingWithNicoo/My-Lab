@@ -1,30 +1,47 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About</title>
-
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>About — Nebula</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
+<nav class="side-menu" id="site-menu" aria-label="Main navigation">
+<ul>
+<li><a href="index.html" data-link>Home <span class="mobile-emoji">🏠</span></a></li>
+<li><a href="projects.html" data-link>Projects <span class="mobile-emoji">🚀</span></a></li>
+<li><a href="contact.html" data-link>Contact <span class="mobile-emoji">✉️</span></a></li>
+<li><a href="about.html" data-link>About <span class="mobile-emoji">ℹ️</span></a></li>
+</ul>
+</nav>
 
-  <div id="stars"></div>
 
-  <nav id="nav" class="nav">
-    <button id="menu-toggle" class="menu-toggle">☰</button>
-    <ul>
-      <li><a href="index.html">Home <span class="emoji">🏠</span></a></li>
-      <li><a href="projects.html">Projects <span class="emoji">📄</span></a></li>
-      <li><a href="contact.html">Contact <span class="emoji">👤</span></a></li>
-      <li><a href="about.html">About <span class="emoji">❓</span></a></li>
-    </ul>
-  </nav>
+<button id="menu-toggle" class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">
+<span class="bar"></span>
+</button>
 
-  <div class="content">
-    <h1>About</h1>
-    <p>Information about me.</p>
-  </div>
+
+<main class="content">
+<header class="hero">
+<h1 class="glow">About</h1>
+<p class="muted">Detalles sobre la estética y el enfoque técnico.</p>
+</header>
+
+
+<section class="card">
+<h2 class="glow">Diseño</h2>
+<p>Fondo con degradado morado oscuro, ruido CSS para evitar banding, y estrellas generadas por JavaScript con parallax.</p>
+
+
+<h2 class="glow">Accesibilidad</h2>
+<p>Menú keyboard accessible, contrastes pensados para mostrar glow sin perder lectura.</p>
+</section>
+
+
+<footer class="footer muted">Proyecto de ejemplo — sin librerías externas.</footer>
+</main>
+
 
 <script src="script.js"></script>
 </body>
