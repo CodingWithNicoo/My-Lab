@@ -1,159 +1,139 @@
-/* ======= FONDO GENERAL ======= */
+/* ===== FONDO GENERAL ===== */
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  padding: 0;
+  font-family: Arial;
+  background: linear-gradient(180deg, #2e005c 0%, #12002f 100%);
   color: white;
-  background: linear-gradient(180deg, #1a002b 0%, #3b0066 40%, #24004d 100%);
-  min-height: 100vh;
   overflow-x: hidden;
 }
 
-/* ======= ESTRELLAS ======= */
+/* ===== TEXTO GLOW ===== */
+h1, h2, h3, p, a {
+  text-shadow: 0 0 8px #c280ff, 0 0 14px #b35dff;
+}
+
+/* ===== FONDO ESTRELLAS ===== */
 #stars {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
   z-index: -1;
-  pointer-events: none;
 }
 
 .star {
   position: absolute;
   background: white;
   border-radius: 50%;
-  opacity: 0.9;
+  opacity: 0.8;
   animation: twinkle 3s infinite ease-in-out;
+  will-change: transform;
 }
 
 @keyframes twinkle {
-  0% { opacity: .2; }
+  0%,100% { opacity: 0.2; }
   50% { opacity: 1; }
-  100% { opacity: .2; }
 }
 
-/* ================================================== */
-/*                MENÚ DESKTOP                        */
-/* ================================================== */
+/* Shake idle */
+.shake {
+  animation: shake 0.5s infinite;
+}
 
+@keyframes shake {
+  0% { transform: translate(0,0); }
+  25% { transform: translate(1px,-1px); }
+  50% { transform: translate(-1px,1px); }
+  75% { transform: translate(1px,1px); }
+  100% { transform: translate(0,0); }
+}
+
+/* ===== MENÚ DESKTOP CRISTAL ===== */
 .nav {
-  width: 80%;
-  max-width: 900px;
-  height: 60px;
-
-  /* efecto cristal */
-  background: rgba(255, 255, 255, 0.10);
-  backdrop-filter: blur(15px);
-
-  border-radius: 20px;
-
   position: fixed;
-  top: 25px;
-  left: 50%;
-  transform: translateX(-50%);
-
-  z-index: 20;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  width: 200px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.15);
+  box-shadow: 0 0 15px rgba(150, 0, 255, 0.3);
+  transition: 0.3s;
+  z-index: 10;
 }
 
 .nav ul {
-  display: flex;
-  gap: 45px;
-  margin: 0;
-  padding: 0;
   list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav li {
+  margin: 18px 0;
 }
 
 .nav a {
   text-decoration: none;
   color: white;
-  font-size: 20px;
+  font-size: 18px;
 }
 
-/* Botón oculto en PC */
+.emoji { display: none; }
+
+/* ===== MENÚ MÓVIL: CÍRCULO CRISTAL ===== */
 .menu-toggle {
   display: none;
 }
 
-/* ================================================== */
-/*                  MENÚ MÓVIL (CÍRCULO)              */
-/* ================================================== */
-
 @media (max-width: 768px) {
 
-  /* El menú se convierte en un botón circular */
   .nav {
-    width: 60px;
-    height: 60px;
-
-    left: 30px;
-    bottom: 30px;
     top: auto;
-
-    transform: none;
-
-    border-radius: 50%;
+    bottom: 20px;
+    left: 20px;
+    width: 70px;
+    height: 70px;
     padding: 0;
-
+    border-radius: 50%;
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
-  /* CÍRCULO FLOTANTE */
-  .menu-toggle {
-    display: block;
-    width: 100%;
-    height: 100%;
-    font-size: 26px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.20);
-    backdrop-filter: blur(12px);
-    border: none;
-    color: white;
-    cursor: pointer;
-  }
-
-  /* Los links se ocultan por defecto */
   .nav ul {
     display: none;
-    position: absolute;
-    bottom: 70px;
-    left: 50%;
-    transform: translateX(-50%);
-    flex-direction: column;
-    gap: 15px;
   }
 
-  /* Menú vertical cuando está abierto */
+  .nav.open {
+    width: 190px;
+    height: 190px;
+    border-radius: 20px;
+    padding: 15px;
+  }
+
   .nav.open ul {
-    display: flex;
+    display: block;
   }
 
-  .nav.open ul li {
-    padding: 10px 20px;
-    background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(12px);
-    border-radius: 15px;
-  }
-
-  /* En móvil → solo emojis */
-  .nav.open ul a {
-    font-size: 28px;
-  }
+  /* Ahora los emojis sirven como íconos compactos */
+  .emoji { display: inline; }
 }
 
-/* ================================================== */
-/* CONTENT                                             */
-/* ================================================== */
-
+/* ===== CONTENIDO ===== */
 .content {
-  padding: 150px 30px;
-  max-width: 900px;
-  margin: auto;
-  text-align: center;
+  padding: 40px;
+  margin-left: 260px;
+}
+
+@media (max-width: 768px) {
+  .content {
+    margin-left: 0;
+    padding: 20px;
+  }
 }
