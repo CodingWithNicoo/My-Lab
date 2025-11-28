@@ -83,3 +83,19 @@ function resetIdleTimer() {
 
 // Inicializar temporizador al cargar la página
 resetIdleTimer();
+
+// Menú se esconde al hacer scroll down y aparece al scroll up
+let lastScrollTop = 0;
+const menu = document.querySelector('.menu');
+
+window.addEventListener('scroll', () => {
+  const st = window.pageYOffset || document.documentElement.scrollTop;
+  if (st > lastScrollTop) {
+    // Scroll hacia abajo → esconder menú
+    menu.style.transform = 'translate(-50%, -100%)';
+  } else {
+    // Scroll hacia arriba → mostrar menú
+    menu.style.transform = 'translateX(-50%)';
+  }
+  lastScrollTop = st <= 0 ? 0 : st; // Para evitar negativos
+});
