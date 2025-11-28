@@ -1,144 +1,124 @@
-/* ------------------ FONDO: DEGRADADO MORADO SIN BANDAS ------------------ */
-
-body {
+/* ===== RESET ===== */
+* {
   margin: 0;
-  font-family: Arial;
-  color: white;
-  overflow-x: hidden;
-  background: linear-gradient(180deg, #2a0066 0%, #14003a 100%);
-  position: relative;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Ruido CSS (NO imagen) para eliminar banding */
-body::before {
-  content: "";
+body {
+  font-family: "Inter", sans-serif;
+  color: white;
+  overflow-x: hidden;
+  background: linear-gradient(180deg, #2a0055, #3a0066, #25003d);
+  animation: gradientMove 12s ease-in-out infinite alternate;
+}
+
+/* Fondo animado */
+@keyframes gradientMove {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 100%; }
+}
+
+/* ==== ESTRELLAS ==== */
+#stars {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: -5;
-
-  background:
-    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.03) 0%, transparent 60%),
-    radial-gradient(circle at 80% 70%, rgba(255,255,255,0.02) 0%, transparent 70%),
-    repeating-linear-gradient(
-      45deg,
-      rgba(255,255,255,0.01) 0px,
-      rgba(255,255,255,0.01) 1px,
-      transparent 1px,
-      transparent 3px
-    );
-  opacity: 0.25;
-}
-
-/* ------------------ ESTRELLAS ------------------ */
-
-#stars {
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  z-index: -3;
-  overflow: hidden;
+  z-index: -1;
 }
 
 .star {
   position: absolute;
   background: white;
+  width: 2px;
+  height: 2px;
   border-radius: 50%;
   opacity: 0.8;
   animation: twinkle 3s infinite ease-in-out;
 }
 
 @keyframes twinkle {
-  0%, 100% { opacity: 0.3; }
+  0%,100% { opacity: .3; }
   50% { opacity: 1; }
 }
 
-/* Shake idle */
-.shake {
-  animation: shake 0.5s infinite;
+/* ===== TEXT GLOW ===== */
+h1, h2, h3, p, a {
+  text-shadow: 0 0 8px #d8aaff;
 }
 
-@keyframes shake {
-  0% { transform: translate(0,0); }
-  25% { transform: translate(1px,-1px); }
-  50% { transform: translate(-1px,1px); }
-  75% { transform: translate(1px,1px); }
-  100% { transform: translate(0,0); }
-}
-
-/* ------------------ MENÚ (como lo tenías antes) ------------------ */
-
-.side-menu {
+/* ========== MENU PC (CRISTAL PEQUEÑO) ========== */
+#menu {
   position: fixed;
-  top: 20px;
-  left: 20px;
-  width: 220px;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
+  top: 60px;
+  left: 40px;
+  width: 180px;
+  padding: 18px;
   border-radius: 18px;
-  z-index: 1000;
-  transition: 0.3s ease;
+  backdrop-filter: blur(12px);
+  background: rgba(255,255,255,0.1);
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+  transition: 0.3s;
 }
 
-.side-menu ul {
+#menu ul {
   list-style: none;
-  padding: 0;
-  margin: 30px 0 0 0;
 }
 
-.side-menu li {
-  margin: 15px 0;
-}
-
-.side-menu a {
+#menu a {
   text-decoration: none;
-  color: white;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  opacity: 0.9;
-  transition: 0.2s;
+  color: #fff;
+  font-size: 1.1rem;
+  display: block;
+  padding: 8px 0;
 }
 
-.side-menu a:hover {
-  opacity: 1;
-}
-
-.menu-toggle {
-  display: none;
-}
-
-/* ------------------ MÓVIL ------------------ */
-
-@media (max-width: 768px) {
-  .side-menu {
-    width: 70px;
-    padding: 15px;
+/* ========== MENU MÓVIL (CÍRCULO) ========== */
+@media (max-width: 700px) {
+  #menu {
+    left: 20px;
+    top: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .side-menu ul span {
+  #menu ul {
     display: none;
   }
 
-  .menu-toggle {
+  #menu.open {
+    height: auto;
+    width: 150px;
+    padding: 14px;
+    border-radius: 18px;
+  }
+
+  #menu.open ul {
     display: block;
-    font-size: 24px;
-    margin-bottom: 15px;
-    cursor: pointer;
-    background: none;
-    border: none;
-    color: white;
   }
+}
 
-  .side-menu.open {
-    width: 220px;
-  }
+/* ====== SHAKE ====== */
+.shake {
+  animation: shakeAnim 0.4s;
+}
 
-  .side-menu.open ul span {
-    display: inline;
-  }
+@keyframes shakeAnim {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+
+/* ===== CONTENT ==== */
+.content {
+  padding: 120px 40px;
+  max-width: 900px;
 }
