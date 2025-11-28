@@ -141,3 +141,17 @@
   });
 
 })();
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const toggle = document.getElementById("menu-toggle");
+  const menu = document.getElementById("site-menu");
+
+  toggle.addEventListener("click", () => {
+
+    menu.classList.toggle("mobile-open");
+    toggle.classList.toggle("open");
+
+  });
+
+});
