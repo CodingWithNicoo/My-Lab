@@ -26,18 +26,32 @@ for (let i = 0; i < STAR_COUNT; i++) {
   starsContainer.appendChild(star);
 }
 
-// Movimiento de parallax con el mouse
+// Función de parallax usando valores x e y
+function moveStars(offsetX, offsetY) {
+  stars.forEach(star => {
+    const depth = parseFloat(star.dataset.depth);
+    const x = offsetX * depth * 5; // ajustar sensibilidad
+    const y = offsetY * depth * 5;
+    star.style.transform = `translate(${x}px, ${y}px)`;
+  });
+}
+
+// Parallax con mouse
 document.addEventListener('mousemove', e => {
   const centerX = window.innerWidth / 2;
   const centerY = window.innerHeight / 2;
-
-  const moveX = (e.clientX - centerX) / centerX; // -1 a 1
+  const moveX = (e.clientX - centerX) / centerX;
   const moveY = (e.clientY - centerY) / centerY;
 
-  stars.forEach(star => {
-    const depth = parseFloat(star.dataset.depth); // más grande = más cerca
-    const offsetX = moveX * depth * 5; // ajustar sensibilidad
-    const offsetY = moveY * depth * 5;
-    star.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-  });
+  moveStars(moveX, moveY);
 });
+
+// Parallax con sensor de dispositivo (móvil/tablet)
+if (window.DeviceOrientationEvent) {
+  window.addEventListener('deviceorientation', e => {
+    // gamma: izquierda/derecha, beta: adelante/atrás
+    const moveX = e.gamma / 45; // normalizado aproximado -1 a 1
+    const moveY = e.beta / 45;  // normalizado aproximado -1 a 1
+    moveStars(moveX, moveY);
+  });
+}
