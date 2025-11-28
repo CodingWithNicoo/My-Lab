@@ -1,124 +1,41 @@
-/* ===== RESET ===== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: "Inter", sans-serif;
-  color: white;
-  overflow-x: hidden;
-  background: linear-gradient(180deg, #2a0055, #3a0066, #25003d);
-  animation: gradientMove 12s ease-in-out infinite alternate;
-}
-
-/* Fondo animado */
-@keyframes gradientMove {
-  0% { background-position: 0 0; }
-  100% { background-position: 0 100%; }
-}
-
-/* ==== ESTRELLAS ==== */
-#stars {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;
-}
-
-.star {
-  position: absolute;
-  background: white;
-  width: 2px;
-  height: 2px;
-  border-radius: 50%;
-  opacity: 0.8;
-  animation: twinkle 3s infinite ease-in-out;
-}
-
-@keyframes twinkle {
-  0%,100% { opacity: .3; }
-  50% { opacity: 1; }
-}
-
-/* ===== TEXT GLOW ===== */
-h1, h2, h3, p, a {
-  text-shadow: 0 0 8px #d8aaff;
-}
-
-/* ========== MENU PC (CRISTAL PEQUEÑO) ========== */
-#menu {
-  position: fixed;
-  top: 60px;
-  left: 40px;
-  width: 180px;
-  padding: 18px;
-  border-radius: 18px;
-  backdrop-filter: blur(12px);
-  background: rgba(255,255,255,0.1);
-  box-shadow: 0 0 20px rgba(0,0,0,0.4);
-  transition: 0.3s;
-}
-
-#menu ul {
-  list-style: none;
-}
-
-#menu a {
-  text-decoration: none;
-  color: #fff;
-  font-size: 1.1rem;
-  display: block;
-  padding: 8px 0;
-}
-
-/* ========== MENU MÓVIL (CÍRCULO) ========== */
-@media (max-width: 700px) {
-  #menu {
-    left: 20px;
-    top: 20px;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  #menu ul {
-    display: none;
-  }
-
-  #menu.open {
-    height: auto;
-    width: 150px;
-    padding: 14px;
-    border-radius: 18px;
-  }
-
-  #menu.open ul {
-    display: block;
-  }
-}
-
-/* ====== SHAKE ====== */
-.shake {
-  animation: shakeAnim 0.4s;
-}
-
-@keyframes shakeAnim {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  50% { transform: translateX(5px); }
-  75% { transform: translateX(-5px); }
-  100% { transform: translateX(0); }
+/* Reset + base */
+:root{
+--bg-1: #0b0711;
+--bg-2: #150728;
+--accent: #9b6cff;
+--accent-soft: rgba(155,108,255,0.12);
+--glass: rgba(255,255,255,0.06);
+--glass-2: rgba(255,255,255,0.03);
+--text: #eae6ff;
+--muted: #bfb6d9;
+--blur-amt: 12px;
+--max-width: 1100px;
 }
 
 
-/* ===== CONTENT ==== */
-.content {
-  padding: 120px 40px;
-  max-width: 900px;
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+margin:0;
+font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+color:var(--text);
+background: radial-gradient(1200px 600px at 10% 10%, rgba(20,6,40,0.5), transparent), linear-gradient(180deg,var(--bg-1),var(--bg-2));
+overflow-x:hidden;
 }
+
+
+/* Noise using SVG data URI to avoid banding */
+body::before{
+content:"";
+position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:soft-light;
+background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.06' /></svg>");
+opacity:1;
+}
+
+
+/* Stars container (managed by JS) */
+#stars-layer{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.star{position:absolute;border-radius:50%;will-change:transform,opacity;opacity:0.9}
+
+
+.content{position:relative;z-index:5;min-height:100vh;display:flex;flex-direction:column;align-items:cen
