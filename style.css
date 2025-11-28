@@ -1,3 +1,4 @@
+/* Reset y fondo */
 html, body {
   margin: 0;
   padding: 0;
@@ -9,6 +10,7 @@ html, body {
   color: white;
 }
 
+/* Fondo de estrellas */
 #stars {
   position: absolute;
   width: 100%;
@@ -19,6 +21,7 @@ html, body {
   overflow: hidden;
 }
 
+/* Estrellas */
 .star {
   position: absolute;
   background: white;
@@ -33,6 +36,7 @@ html, body {
   to { opacity: 1; }
 }
 
+/* Efecto shake */
 @keyframes shake {
   0% { transform: translate(0px, 0px) scale(1); }
   25% { transform: translate(1px, -1px) scale(1); }
@@ -45,6 +49,7 @@ html, body {
   animation: shake 0.5s infinite;
 }
 
+/* Contenido */
 .content {
   position: relative;
   z-index: 2;
@@ -63,4 +68,53 @@ p {
   font-size: 1.5em;
   color: #d0aaff;
   text-shadow: 0 0 5px #e0c3fc;
+}
+
+/* Menú superior con efecto cristal */
+.menu {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 5px 20px;
+  transition: all 0.3s ease;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+}
+
+/* Expandir menú al pasar el mouse */
+.menu:hover {
+  padding: 10px 40px;
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Lista horizontal */
+.menu ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Elementos del menú */
+.menu li {
+  margin: 0 15px;
+}
+
+/* Links */
+.menu a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+/* Cambiar color al pasar el ratón */
+.menu a:hover {
+  color: #e0c3fc;
 }
