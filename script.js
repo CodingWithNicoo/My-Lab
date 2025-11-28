@@ -33,14 +33,9 @@ for (let i = 0; i < STAR_COUNT; i++) {
 function moveStars(offsetX, offsetY) {
   stars.forEach(star => {
     const depth = parseFloat(star.dataset.depth);
-    const baseSize = parseFloat(star.dataset.size);
-
-    // movimiento proporcional a la profundidad
+    const scale = 1 + depth / 5;
     const x = offsetX * depth * 10;
     const y = offsetY * depth * 10;
-
-    // escala según profundidad
-    const scale = 1 + depth / 5;
 
     star.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
   });
@@ -55,6 +50,7 @@ document.addEventListener('mousemove', e => {
   const moveY = (e.clientY - centerY) / centerY;
 
   moveStars(moveX, moveY);
+  resetIdleTimer();
 });
 
 // Parallax con sensor de dispositivo
@@ -63,5 +59,27 @@ if (window.DeviceOrientationEvent) {
     const moveX = e.gamma ? e.gamma / 45 : 0;
     const moveY = e.beta ? e.beta / 45 : 0;
     moveStars(moveX, moveY);
+    resetIdleTimer();
   });
 }
+
+// --- Efecto shake cuando está idle ---
+let idleTimer;
+const IDLE_DELAY = 3000; // 3 segundos
+
+function startShake() {
+  stars.forEach(star => star.classList.add('shake'));
+}
+
+function stopShake() {
+  stars.forEach(star => star.classList.remove('shake'));
+}
+
+function resetIdleTimer() {
+  stopShake();
+  clearTimeout(idleTimer);
+  idleTimer = setTimeout(startShake, IDLE_DELAY);
+}
+
+// Inicializar temporizador al cargar la página
+resetIdleTimer();
