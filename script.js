@@ -2,42 +2,36 @@ const starsContainer = document.getElementById('stars');
 const STAR_COUNT = 150;
 const stars = [];
 
-// Crear estrellas aleatorias
+// Crear estrellas
 for (let i = 0; i < STAR_COUNT; i++) {
   const star = document.createElement('div');
   star.classList.add('star');
 
   const size = Math.random() * 2 + 1; // 1px a 3px
-  star.dataset.baseSize = size;       // tamaño original
-  star.dataset.depth = size;           // profundidad para parallax
+  star.dataset.size = size; // tamaño base
+  star.style.width = `${size}px`;
+  star.style.height = `${size}px`;
 
   const top = Math.random() * 100;
   const left = Math.random() * 100;
-  star.dataset.baseTop = top;
-  star.dataset.baseLeft = left;
-
-  star.style.width = `${size}px`;
-  star.style.height = `${size}px`;
+  star.dataset.top = top;
+  star.dataset.left = left;
   star.style.top = `${top}%`;
   star.style.left = `${left}%`;
 
   star.style.animationDuration = `${Math.random() * 3 + 2}s`;
 
-  stars.push(star);
   starsContainer.appendChild(star);
-});
+  stars.push(star);
+}
 
-// Función para mover y escalar estrellas
-function moveStars(offsetX, offsetY) {
+// Función de parallax simple
+function updateStars(offsetX, offsetY) {
   stars.forEach(star => {
-    const depth = parseFloat(star.dataset.depth);
-    const baseSize = parseFloat(star.dataset.baseSize);
-
-    const x = offsetX * depth * 5; // movimiento horizontal
-    const y = offsetY * depth * 5; // movimiento vertical
-    const scale = 1 + depth / 5;   // efecto 3D: estrellas cercanas se ven más grandes
-
-    star.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+    const depth = parseFloat(star.dataset.size);
+    const x = offsetX * depth * 5;
+    const y = offsetY * depth * 5;
+    star.style.transform = `translate(${x}px, ${y}px)`;
   });
 }
 
@@ -45,18 +39,16 @@ function moveStars(offsetX, offsetY) {
 document.addEventListener('mousemove', e => {
   const centerX = window.innerWidth / 2;
   const centerY = window.innerHeight / 2;
-
-  const moveX = (e.clientX - centerX) / centerX;
+  const moveX = (e.clientX - centerX) / centerX; // -1 a 1
   const moveY = (e.clientY - centerY) / centerY;
-
-  moveStars(moveX, moveY);
+  updateStars(moveX, moveY);
 });
 
-// Parallax con sensor de dispositivo (móvil/tablet)
+// Parallax en móviles (DeviceOrientation)
 if (window.DeviceOrientationEvent) {
   window.addEventListener('deviceorientation', e => {
-    const moveX = e.gamma / 45; // normalizado
-    const moveY = e.beta / 45;  // normalizado
-    moveStars(moveX, moveY);
+    const moveX = e.gamma ? e.gamma / 45 : 0; // normalizado
+    const moveY = e.beta ? e.beta / 45 : 0;
+    updateStars(moveX, moveY);
   });
 }
