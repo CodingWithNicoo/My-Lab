@@ -1,101 +1,92 @@
 const starsContainer = document.getElementById('stars');
-const STAR_COUNT = 150;
-const stars = [];
 
-// Crear estrellas con tamaño y profundidad
-for (let i = 0; i < STAR_COUNT; i++) {
-  const star = document.createElement('div');
-  star.classList.add('star');
+if (starsContainer) {
+  const STAR_COUNT = 150;
+  const stars = [];
 
-  const size = Math.random() * 2 + 1; // tamaño base
-  const depth = Math.random() * 3 + 1; // profundidad
+  // Crear estrellas
+  for (let i = 0; i < STAR_COUNT; i++) {
+    const star = document.createElement('div');
+    star.classList.add('star');
 
-  star.dataset.size = size;
-  star.dataset.depth = depth;
+    const size = Math.random() * 2 + 1;
+    const depth = Math.random() * 3 + 1;
 
-  const top = Math.random() * 100;
-  const left = Math.random() * 100;
-  star.dataset.top = top;
-  star.dataset.left = left;
+    star.dataset.size = size;
+    star.dataset.depth = depth;
 
-  star.style.width = `${size}px`;
-  star.style.height = `${size}px`;
-  star.style.top = `${top}%`;
-  star.style.left = `${left}%`;
+    const top = Math.random() * 100;
+    const left = Math.random() * 100;
+    star.dataset.top = top;
+    star.dataset.left = left;
 
-  star.style.animationDuration = `${Math.random() * 3 + 2}s`;
+    star.style.width = `${size}px`;
+    star.style.height = `${size}px`;
+    star.style.top = `${top}%`;
+    star.style.left = `${left}%`;
 
-  starsContainer.appendChild(star);
-  stars.push(star);
-}
+    star.style.animationDuration = `${Math.random() * 3 + 2}s`;
 
-// Función de parallax 3D
-function moveStars(offsetX, offsetY) {
-  stars.forEach(star => {
-    const depth = parseFloat(star.dataset.depth);
-    const scale = 1 + depth / 5;
-    const x = offsetX * depth * 10;
-    const y = offsetY * depth * 10;
+    starsContainer.appendChild(star);
+    stars.push(star);
+  }
 
-    star.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
-  });
-}
+  // Parallax 3D
+  function moveStars(offsetX, offsetY) {
+    stars.forEach(star => {
+      const depth = parseFloat(star.dataset.depth);
+      const scale = 1 + depth / 5;
+      const x = offsetX * depth * 10;
+      const y = offsetY * depth * 10;
+      star.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+    });
+  }
 
-// Parallax con mouse
-document.addEventListener('mousemove', e => {
-  const centerX = window.innerWidth / 2;
-  const centerY = window.innerHeight / 2;
-
-  const moveX = (e.clientX - centerX) / centerX;
-  const moveY = (e.clientY - centerY) / centerY;
-
-  moveStars(moveX, moveY);
-  resetIdleTimer();
-});
-
-// Parallax con sensor de dispositivo
-if (window.DeviceOrientationEvent) {
-  window.addEventListener('deviceorientation', e => {
-    const moveX = e.gamma ? e.gamma / 45 : 0;
-    const moveY = e.beta ? e.beta / 45 : 0;
+  // Parallax con mouse
+  document.addEventListener('mousemove', e => {
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+    const moveX = (e.clientX - centerX) / centerX;
+    const moveY = (e.clientY - centerY) / centerY;
     moveStars(moveX, moveY);
     resetIdleTimer();
   });
+
+  // Parallax en dispositivos móviles
+  if (window.DeviceOrientationEvent) {
+    window.addEventListener('deviceorientation', e => {
+      const moveX = e.gamma ? e.gamma / 45 : 0;
+      const moveY = e.beta ? e.beta / 45 : 0;
+      moveStars(moveX, moveY);
+      resetIdleTimer();
+    });
+  }
+
+  // --- Shake cuando idle ---
+  let idleTimer;
+  const IDLE_DELAY = 3000;
+
+  function startShake() { stars.forEach(s => s.classList.add('shake')); }
+  function stopShake() { stars.forEach(s => s.classList.remove('shake')); }
+
+  function resetIdleTimer() {
+    stopShake();
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(startShake, IDLE_DELAY);
+  }
+  resetIdleTimer();
 }
 
-// --- Efecto shake cuando está idle ---
-let idleTimer;
-const IDLE_DELAY = 3000; // 3 segundos
-
-function startShake() {
-  stars.forEach(star => star.classList.add('shake'));
-}
-
-function stopShake() {
-  stars.forEach(star => star.classList.remove('shake'));
-}
-
-function resetIdleTimer() {
-  stopShake();
-  clearTimeout(idleTimer);
-  idleTimer = setTimeout(startShake, IDLE_DELAY);
-}
-
-// Inicializar temporizador al cargar la página
-resetIdleTimer();
-
-// Menú se esconde al hacer scroll down y aparece al scroll up
+// --- Menú hide on scroll ---
 let lastScrollTop = 0;
 const menu = document.querySelector('.menu');
 
 window.addEventListener('scroll', () => {
   const st = window.pageYOffset || document.documentElement.scrollTop;
   if (st > lastScrollTop) {
-    // Scroll hacia abajo → esconder menú
     menu.style.transform = 'translate(-50%, -100%)';
   } else {
-    // Scroll hacia arriba → mostrar menú
     menu.style.transform = 'translateX(-50%)';
   }
-  lastScrollTop = st <= 0 ? 0 : st; // Para evitar negativos
+  lastScrollTop = st <= 0 ? 0 : st;
 });
