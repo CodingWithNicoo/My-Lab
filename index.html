@@ -1,66 +1,29 @@
-<!doctype html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Home — Nebula</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home – Space Theme</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="script.js"></script>
 </head>
 <body>
-<!-- Shared background / stars are injected by script.js -->
+  <!-- Mobile toggle button -->
+  <button id="menu-toggle" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 
+  <!-- Shared menu -->
+  <nav id="site-menu">
+    <a href="index.html">Home</a>
+    <a href="projects.html">Projects</a>
+    <a href="contact.html">Contact</a>
+    <a href="about.html">About</a>
+  </nav>
 
-<!-- Shared menu (same in all pages) -->
-<nav class="side-menu" id="site-menu" aria-label="Main navigation">
-<ul>
-<li><a href="index.html" data-link>Home <span class="mobile-emoji">🏠</span></a></li>
-<li><a href="projects.html" data-link>Projects <span class="mobile-emoji">🚀</span></a></li>
-<li><a href="contact.html" data-link>Contact <span class="mobile-emoji">✉️</span></a></li>
-<li><a href="about.html" data-link>About <span class="mobile-emoji">ℹ️</span></a></li>
-</ul>
-</nav>
-
-
-<!-- Mobile floating button -->
-<button id="menu-toggle" class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">
-<span class="bar"></span>
-</button>
-
-
-<main class="content">
-<header class="hero">
-<h1 class="glow">Bienvenido a Nebula</h1>
-<p class="muted">Una página demo temática espacial — menú glassmorphism, fondo con ruido y estrellas animadas.</p>
-</header>
-
-
-<section class="cards">
-<article class="card">
-<h2 class="glow">Proyectos</h2>
-<p>Explora experimentos y demos construidos con HTML, CSS y JS puro.</p>
-<a class="btn" href="projects.html">Ver proyectos</a>
-</article>
-
-
-<article class="card">
-<h2 class="glow">Contacto</h2>
-<p>¿Tienes una idea o quieres colaborar? Ponte en contacto.</p>
-<a class="btn" href="contact.html">Contáctame</a>
-</article>
-
-
-<article class="card">
-<h2 class="glow">Sobre</h2>
-<p>Acerca del proyecto y las tecnologías utilizadas.</p>
-<a class="btn" href="about.html">Leer más</a>
-</article>
-</section>
-
-
-<footer class="footer muted">Hecho con ♥ en CSS y JS — compatible con GitHub Pages</footer>
-</main>
-
-
-<script src="script.js"></script>
+  <main>
+    <h1>Welcome to the Space</h1>
+    <p>A minimal cosmic UI with stars, parallax and glow.</p>
+  </main>
 </body>
 </html>
