@@ -15,8 +15,8 @@ html, body {
   position: relative;
 }
 
-/* Contenedores */
-#stars, #meteors {
+/* Contenedor de estrellas */
+#stars {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -38,21 +38,6 @@ html, body {
 @keyframes twinkle {
   from { opacity: 0.2; }
   to { opacity: 1; }
-}
-
-/* Meteoritos */
-.meteor {
-  position: absolute;
-  width: 2px;
-  height: 80px;
-  background: linear-gradient(45deg, white, transparent);
-  transform: rotate(45deg);
-  animation: meteorMove linear forwards;
-}
-
-@keyframes meteorMove {
-  from { transform: translate(0, -100px) rotate(45deg); opacity: 1; }
-  to { transform: translate(1200px, 600px) rotate(45deg); opacity: 0; }
 }
 
 /* Contenido principal */
