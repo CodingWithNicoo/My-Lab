@@ -40,9 +40,9 @@ h1, h2, h3, h4 {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0... (lo dejo igual) ");
   opacity: 0.18;
   mix-blend-mode: screen;
+  background-size: cover;
 }
 
 /* ============================
@@ -73,7 +73,9 @@ h1, h2, h3, h4 {
   100% { transform: translate(0,0); }
 }
 
-#stars-layer.shake { animation: shake 0.8s ease; }
+#stars-layer.shake {
+  animation: shake 0.8s ease;
+}
 
 /* ============================
    DESKTOP MENU
@@ -101,17 +103,17 @@ h1, h2, h3, h4 {
 }
 
 /* ============================
-   MOBILE MENU
+   MOBILE MENU BUTTON (hidden on desktop)
 ============================ */
 #menu-toggle {
   display: none;
 }
 
-
-/* -------- MOBILE STYLES -------- */
+/* ============================
+   MOBILE STYLES
+============================ */
 @media (max-width: 768px) {
 
-  /* Ocultar estilo de menú escritorio */
   #site-menu {
     bottom: 90px;
     top: auto;
@@ -168,7 +170,6 @@ h1, h2, h3, h4 {
     transition: 0.35s ease;
   }
 
-  /* Animación del menú */
   #menu-toggle.open span:nth-child(1) {
     transform: translateY(9px) rotate(45deg);
   }
@@ -180,7 +181,12 @@ h1, h2, h3, h4 {
   #menu-toggle.open span:nth-child(3) {
     transform: translateY(-9px) rotate(-45deg);
   }
-   /* Hover moderno suave */
+}
+
+/* ============================
+   HOVER MODERNO (DESKTOP + MOBILE)
+============================ */
+
 #site-menu a {
   position: relative;
   padding: 6px 14px;
@@ -188,18 +194,16 @@ h1, h2, h3, h4 {
   transition: 0.28s ease;
 }
 
-/* Efecto al pasar el mouse */
 #site-menu a:hover {
   background: rgba(255,255,255,0.12);
   backdrop-filter: blur(6px);
-  box-shadow: 
+  box-shadow:
       0 0 12px rgba(200,150,255,0.35),
       inset 0 0 8px rgba(180,120,255,0.25);
   color: #fff;
   transform: translateY(-2px);
 }
 
-/* Subrayado glow elegante */
 #site-menu a::after {
   content: "";
   position: absolute;
@@ -214,8 +218,6 @@ h1, h2, h3, h4 {
   transition: width 0.28s ease;
 }
 
-/* Se activa al hacer hover con animación sutil */
 #site-menu a:hover::after {
   width: 80%;
-}
 }
