@@ -180,4 +180,42 @@ h1, h2, h3, h4 {
   #menu-toggle.open span:nth-child(3) {
     transform: translateY(-9px) rotate(-45deg);
   }
+   /* Hover moderno suave */
+#site-menu a {
+  position: relative;
+  padding: 6px 14px;
+  border-radius: 14px;
+  transition: 0.28s ease;
+}
+
+/* Efecto al pasar el mouse */
+#site-menu a:hover {
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(6px);
+  box-shadow: 
+      0 0 12px rgba(200,150,255,0.35),
+      inset 0 0 8px rgba(180,120,255,0.25);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* Subrayado glow elegante */
+#site-menu a::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0%;
+  height: 2px;
+  background: rgba(225,190,255,0.85);
+  box-shadow: 0 0 10px rgba(200,150,255,0.8);
+  border-radius: 2px;
+  transition: width 0.28s ease;
+}
+
+/* Se activa al hacer hover con animación sutil */
+#site-menu a:hover::after {
+  width: 80%;
+}
 }
