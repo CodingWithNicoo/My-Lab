@@ -1,222 +1,234 @@
-/* ============================
-   GLOBAL BASE
-============================ */
-html, body {
+/* ------------------------------
+   Fuente y ajustes globales
+------------------------------- */
+* {
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
-  font-family: Inter, Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
   height: 100%;
-  color: #e8c9ff;
+  overflow-x: hidden;
+  font-family: 'Inter', sans-serif;
+  background: transparent;
+  color: #e5c9ff;
   text-align: center;
-  padding-top: 100px;
-  background: none;
+  user-select: none;
 }
 
-/* Text Glow */
-body, p {
-  text-shadow: 0 0 8px rgba(225,190,255,0.8),
-               0 0 16px rgba(200,150,255,0.6);
+body {
+  position: relative;
 }
 
-h1, h2, h3, h4 {
-  color: #f0d6ff;
-  text-shadow: 0 0 12px rgba(235,200,255,0.9),
-               0 0 28px rgba(200,120,255,0.6);
+/* Glow general del texto */
+h1, h2, h3, p, a {
+  text-shadow: 0 0 8px rgba(200, 160, 255, 0.7);
 }
 
-/* ============================
-   BACKGROUND LAYER
-============================ */
+/* ------------------------------
+   CAPA DE FONDO PRINCIPAL
+------------------------------- */
+
 #background-layer {
   position: fixed;
   inset: 0;
   z-index: -2;
-  background: radial-gradient(circle at center, #1d072c, #0d0216 70%);
-  pointer-events: none;
+  background: radial-gradient(circle at center, #1a0427, #0d0215 70%);
+  filter: url(#noise-filter);
+  overflow: hidden;
 }
 
+/* Ruido procedural mediante pseudo-elemento */
 #background-layer::before {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url("https://i.imgur.com/q5qH9aW.png");
-  background-size: 600px;
-  background-repeat: repeat;
-  opacity: 0.16;
+  background:
+    radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px) 0 0,
+    radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px) 25px 25px;
+  background-size: 50px 50px;
+  opacity: 0.10;
   mix-blend-mode: screen;
 }
 
-/* ============================
-   STARFIELD LAYER
-============================ */
+/* ------------------------------
+   CAPA DE ESTRELLAS (JS)
+------------------------------- */
 #stars-layer {
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
+  overflow: hidden;
 }
 
+/* Estrellas individuales */
 .star {
   position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
   border-radius: 50%;
-  opacity: 0.9;
+  opacity: 0.8;
+  animation: twinkle 3s infinite ease-in-out;
 }
 
-/* Twinkle */
+/* Twinkle suave */
 @keyframes twinkle {
-  0%,100% { opacity: 0.25; }
-  50%     { opacity: 1; }
+  0%, 100% { opacity: 0.3; }
+  50%      { opacity: 1; }
 }
 
-/* Glitch shake */
-@keyframes glitchShake {
-  0%   { transform: translate(0,0); }
-  20%  { transform: translate(-4px, 2px); }
-  40%  { transform: translate(3px, -3px); }
-  60%  { transform: translate(-2px, 3px); }
-  80%  { transform: translate(4px, -1px); }
-  100% { transform: translate(0,0); }
+/* Glitch para inactividad */
+@keyframes glitch {
+  0%   { transform: translate(0, 0); opacity: 1; }
+  20%  { transform: translate(-2px, 1px); opacity: 0.9; }
+  40%  { transform: translate(3px, -1px); opacity: 1; }
+  60%  { transform: translate(-1px, 2px); opacity: 0.85; }
+  80%  { transform: translate(2px, -2px); opacity: 1; }
+  100% { transform: translate(0, 0); opacity: 1; }
 }
 
-#stars-layer.glitch {
-  animation: glitchShake 0.15s infinite steps(2);
+.glitch-active .star {
+  animation: twinkle 3s infinite ease-in-out, glitch 0.2s infinite;
 }
 
-/* ============================
-   DESKTOP MENU
-============================ */
+/* ------------------------------
+   MENÚ DESKTOP
+------------------------------- */
+
 #site-menu {
   position: fixed;
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(50,20,80,0.45);
-  padding: 10px 20px;
-  border-radius: 20px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 12px rgba(180,120,255,0.4);
   display: flex;
-  gap: 25px;
-  z-index: 999;
-  transition: 0.25s ease;
+  gap: 30px;
+  background: rgba(255,255,255,0.08);
+  padding: 12px 25px;
+  border-radius: 50px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 25px rgba(160,0,255,0.25);
+  z-index: 20;
 }
 
 #site-menu a {
-  color: #f2d7ff;
-  text-decoration: none;
-  font-size: 15px;
+  color: #e5c9ff;
   font-weight: 500;
-  position: relative;
-  padding: 6px 14px;
-  border-radius: 14px;
-  transition: 0.28s ease;
+  text-decoration: none;
+  transition: 0.25s ease;
 }
 
-/* Hover moderno elegante */
+/* Hover suave moderno */
 #site-menu a:hover {
-  background: rgba(255,255,255,0.12);
-  backdrop-filter: blur(6px);
-  box-shadow:
-      0 0 12px rgba(200,150,255,0.35),
-      inset 0 0 8px rgba(180,120,255,0.25);
-  color: #fff;
+  color: white;
+  text-shadow: 0 0 12px #e7caff;
   transform: translateY(-2px);
 }
 
-/* Subrayado glow */
-#site-menu a::after {
-  content: "";
-  position: absolute;
-  bottom: -3px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0%;
-  height: 2px;
-  background: rgba(225,190,255,0.85);
-  box-shadow: 0 0 10px rgba(200,150,255,0.8);
-  border-radius: 2px;
-  transition: width 0.28s ease;
-}
+/* ------------------------------
+   MENÚ MÓVIL (oculto en desktop)
+------------------------------- */
 
-#site-menu a:hover::after {
-  width: 80%;
-}
-
-/* ============================
-   MOBILE MENU
-============================ */
 #menu-toggle {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 50px;
+  height: 50px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 50%;
+  backdrop-filter: blur(10px);
   display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  z-index: 30;
+  box-shadow: 0 0 18px rgba(180, 80, 255, 0.4);
+  transition: transform 0.25s ease;
 }
 
-/* -------- MOBILE STYLES -------- */
+#menu-toggle span {
+  width: 60%;
+  height: 3px;
+  background: #f1d9ff;
+  border-radius: 10px;
+  transition: 0.3s ease;
+}
+
+/* Animación hamburguesa → X */
+#menu-toggle.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+#menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+#menu-toggle.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Menú móvil */
+#site-menu.mobile {
+  position: fixed;
+  bottom: 100px;
+  right: 25px;
+  left: auto;
+  top: auto;
+  transform: none;
+  flex-direction: column;
+  gap: 18px;
+  padding: 25px 20px;
+  border-radius: 20px;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+#site-menu.mobile.show {
+  display: flex;
+  opacity: 1;
+}
+
+/* ------------------------------
+   RESPONSIVE
+------------------------------- */
+
 @media (max-width: 768px) {
 
+  /* Ocultar menú desktop */
   #site-menu {
-    bottom: 90px;
-    top: auto;
-    background: none;
-    padding: 0;
-    gap: 0;
-    flex-direction: column;
-    pointer-events: none;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: 0.35s ease;
+    display: none;
   }
 
-  #site-menu.mobile-open {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-    background: rgba(60,20,100,0.65);
-    padding: 20px;
-    border-radius: 18px;
-    box-shadow: 0 0 25px rgba(180,120,255,0.6);
-  }
-
-  #site-menu a {
-    padding: 12px 0;
-    display: block;
-    font-size: 17px;
-  }
-
-  /* Botón redondo */
+  /* Mostrar menú móvil */
   #menu-toggle {
-    display: block;
-    position: fixed;
-    bottom: 25px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 62px;
-    height: 62px;
-    border-radius: 50%;
-    background: rgba(100,40,140,0.6);
-    border: 2px solid rgba(200,150,255,0.6);
-    backdrop-filter: blur(12px);
-    box-shadow: 0 0 18px rgba(200,100,255,0.6);
-    z-index: 1001;
+    display: flex;
   }
 
-  #menu-toggle span {
-    display: block;
-    width: 26px;
-    height: 3px;
-    background: #f8e2ff;
-    margin: 7px auto;
-    border-radius: 10px;
-    transition: 0.35s ease;
+  #site-menu.mobile a {
+    font-size: 18px;
   }
+}
 
-  /* Animación del botón hamburguesa */
-  #menu-toggle.open span:nth-child(1) {
-    transform: translateY(9px) rotate(45deg);
-  }
-  #menu-toggle.open span:nth-child(2) {
-    opacity: 0;
-  }
-  #menu-toggle.open span:nth-child(3) {
-    transform: translateY(-9px) rotate(-45deg);
-  }
+/* ------------------------------
+   CONTENIDO
+------------------------------- */
+
+main {
+  margin-top: 160px;
+  padding: 20px;
+}
+
+main h1 {
+  font-size: 42px;
+  margin-bottom: 12px;
+}
+
+main p {
+  font-size: 18px;
+  opacity: 0.85;
 }
