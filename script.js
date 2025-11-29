@@ -1,172 +1,55 @@
-/* ================================
-   GLOBAL SCRIPT: MENU + STARS + PARALLAX + SHAKE INACTIVO
-================================ */
-(function(){
-  'use strict';
-
-  /* ======================
-        MOBILE MENU
-  ====================== */
-  const menu = document.getElementById('site-menu');
-  const toggle = document.getElementById('menu-toggle');
-
-  function openMenu(){
-    menu.classList.add('mobile-open');
-    toggle.classList.add('open');
-    toggle.setAttribute('aria-expanded','true');
-  }
-
-  function closeMenu(){
-    menu.classList.remove('mobile-open');
-    toggle.classList.remove('open');
-    toggle.setAttribute('aria-expanded','false');
-  }
-
-  if(toggle){
-    toggle.addEventListener('click', ()=>{
-      if(menu.classList.contains('mobile-open')) closeMenu();
-      else openMenu();
-    });
-
-    // Cerrar al hacer clic en un link
-    menu.querySelectorAll('a').forEach(a=>{
-      a.addEventListener('click', ()=>{
-        if(window.innerWidth < 768) closeMenu();
-      });
-    });
-  }
-
-  /* ======================
-        STARFIELD
-  ====================== */
-  const STAR_COUNT = Math.min(200, Math.round((window.innerWidth*window.innerHeight)/6000));
+/* ============================
+   STARFIELD GENERATION
+============================ */
+document.addEventListener("DOMContentLoaded", () => {
   const starsLayer = document.getElementById("stars-layer");
 
-  const stars = [];
-
-  function rand(min,max){ return Math.random()*(max-min)+min; }
-
-  function createStar() {
-    const s = document.createElement('div');
-    s.className = 'star';
-    const size = Math.pow(Math.random(),2)*2.6 + 0.7;
-    s.style.width = size+'px';
-    s.style.height = size+'px';
-
-    const x = Math.random()*100;
-    const y = Math.random()*100;
-    s.style.left = x+'%';
-    s.style.top = y+'%';
-
-    const hue = rand(260,290);
-    s.style.background = `hsla(${hue},60%,85%,${rand(0.7,1)})`;
-
-    const dur = rand(2.4,6.8);
-    s.style.animation = `twinkle ${dur}s infinite ease-in-out`;
-    s.style.animationDelay = `${rand(0,6)}s`;
-
-    s.dataset.z = rand(0.2,1.4);
-
-    starsLayer.appendChild(s);
-    stars.push(s);
+  const STAR_COUNT = 220;
+  for (let i = 0; i < STAR_COUNT; i++) {
+    const star = document.createElement("div");
+    star.classList.add("star");
+    const size = Math.random() * 3 + 1;
+    star.style.width = `${size}px`;
+    star.style.height = `${size}px`;
+    star.style.position = "absolute";
+    star.style.top = `${Math.random() * 100}%`;
+    star.style.left = `${Math.random() * 100}%`;
+    star.style.background = "white";
+    starsLayer.appendChild(star);
   }
+});
 
-  for(let i=0;i<STAR_COUNT;i++) createStar();
+/* ============================
+   MOBILE MENU
+============================ */
+const menuToggle = document.getElementById("menu-toggle");
+const siteMenu = document.getElementById("site-menu");
 
-  /* ======================
-        PARALLAX
-  ====================== */
-  function moveStars(dx, dy){
-    const max = 30;
-    stars.forEach(s=>{
-      const z = Number(s.dataset.z);
-      const tx = dx * max * z;
-      const ty = dy * max * z;
-      s.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
-    });
-  }
+menuToggle.addEventListener("click", () => {
+  menuToggle.classList.toggle("open");
+  siteMenu.classList.toggle("mobile-open");
+});
 
-  /* ======================
-        SHAKE INACTIVO
-  ====================== */
-  let inactivityTimer = null;
+/* ============================
+   GLITCH SHAKE INACTIVIDAD
+============================ */
 
-  function resetInactivity(){
-    starsLayer.classList.remove('shake'); // detener shake al interactuar
+let inactivityTimer = null;
+const GLITCH_DELAY = 3000;
+const starsLayer = document.getElementById("stars-layer");
 
-    if(inactivityTimer) clearTimeout(inactivityTimer);
+function resetInactivity() {
+  starsLayer.classList.remove("glitch");
 
-    inactivityTimer = setTimeout(()=>{
-      starsLayer.classList.add('shake'); // iniciar shake infinito
-    }, 3000);
-  }
+  if (inactivityTimer) clearTimeout(inactivityTimer);
 
-  resetInactivity();
+  inactivityTimer = setTimeout(() => {
+    starsLayer.classList.add("glitch");
+  }, GLITCH_DELAY);
+}
 
-  /* ======================
-        EVENTS
-  ====================== */
+resetInactivity();
 
-  // mouse
-  window.addEventListener('mousemove', e=>{
-    resetInactivity();
-    const dx = (e.clientX - window.innerWidth/2) / (window.innerWidth/2);
-    const dy = (e.clientY - window.innerHeight/2) / (window.innerHeight/2);
-    moveStars(dx, dy);
-  });
-
-  // touch
-  window.addEventListener('touchmove', e=>{
-    resetInactivity();
-    const t = e.touches[0];
-    const dx = (t.clientX - window.innerWidth/2) / (window.innerWidth/2);
-    const dy = (t.clientY - window.innerHeight/2) / (window.innerHeight/2);
-    moveStars(dx, dy);
-  }, {passive:true});
-
-  // clicks, teclas también cuentan como actividad
-  ['click','keydown','touchstart'].forEach(ev=>{
-    window.addEventListener(ev, resetInactivity, {passive:true});
-  });
-
-  /* ======================
-        DEVICE ORIENTATION
-  ====================== */
-
-  function enableOrientation(){
-    function handler(evt){
-      resetInactivity();
-      if(evt.gamma === null) return;
-      const dx = evt.gamma/30;
-      const dy = evt.beta/30;
-      moveStars(dx, dy);
-    }
-
-    if(typeof DeviceOrientationEvent.requestPermission === 'function'){
-      DeviceOrientationEvent.requestPermission()
-        .then(res=>{
-          if(res === 'granted')
-            window.addEventListener('deviceorientation', handler);
-        });
-    } else {
-      window.addEventListener('deviceorientation', handler);
-    }
-  }
-
-  window.addEventListener('click', enableOrientation, {once:true});
-  window.addEventListener('touchstart', enableOrientation, {once:true});
-
-  /* ======================
-        RESIZE REBUILD
-  ====================== */
-  let resizeTimer = null;
-  window.addEventListener('resize', ()=>{
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(()=>{
-      starsLayer.innerHTML = '';
-      stars.length = 0;
-      for(let i=0;i<STAR_COUNT;i++) createStar();
-    }, 150);
-  });
-
-})();
+["mousemove", "mousedown", "keydown", "touchstart", "touchmove"].forEach(evt => {
+  window.addEventListener(evt, resetInactivity, { passive: true });
+});
