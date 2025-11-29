@@ -1,5 +1,5 @@
 /* ============================
-   GLOBAL BASE
+   BASE
 ============================ */
 html, body {
   margin: 0;
@@ -13,7 +13,6 @@ html, body {
   background: none;
 }
 
-/* Text Glow */
 body, p {
   text-shadow: 0 0 8px rgba(225,190,255,0.8),
                0 0 16px rgba(200,150,255,0.6);
@@ -26,7 +25,7 @@ h1, h2, h3, h4 {
 }
 
 /* ============================
-   BACKGROUND LAYER
+   BACKGROUND
 ============================ */
 #background-layer {
   position: fixed;
@@ -40,13 +39,13 @@ h1, h2, h3, h4 {
   content: "";
   position: absolute;
   inset: 0;
+  background-image: url("https://i.imgur.com/7m2yH8f.png");
   opacity: 0.18;
   mix-blend-mode: screen;
-  background-size: cover;
 }
 
 /* ============================
-   STARFIELD LAYER
+   STARFIELD
 ============================ */
 #stars-layer {
   position: fixed;
@@ -55,26 +54,19 @@ h1, h2, h3, h4 {
   pointer-events: none;
 }
 
-.star {
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0.9;
+/* GLITCH SHAKE */
+#stars-layer.glitch {
+  animation: glitchShake 0.35s infinite steps(2, end);
+  filter: contrast(1.3) brightness(1.2);
 }
 
-@keyframes twinkle {
-  0%,100% { opacity: 0.2; }
-  50%     { opacity: 1; }
-}
-
-@keyframes shake {
-  0%   { transform: translate(0,0); }
-  30%  { transform: translate(-3px,1px); }
-  60%  { transform: translate(3px,-2px); }
-  100% { transform: translate(0,0); }
-}
-
-#stars-layer.shake {
-  animation: shake 0.8s ease;
+@keyframes glitchShake {
+  0%   { transform: translate(0,0) skew(0deg); }
+  20%  { transform: translate(-3px,1px) skew(-2deg); }
+  40%  { transform: translate(3px,-2px) skew(2deg); }
+  60%  { transform: translate(-2px,-1px) skew(1deg); }
+  80%  { transform: translate(2px,2px) skew(-1deg); }
+  100% { transform: translate(0,0) skew(0deg); }
 }
 
 /* ============================
@@ -100,18 +92,48 @@ h1, h2, h3, h4 {
   text-decoration: none;
   font-size: 15px;
   font-weight: 500;
+  position: relative;
+  padding: 6px 14px;
+  border-radius: 14px;
+  transition: 0.28s ease;
+}
+
+/* Hover moderno */
+#site-menu a:hover {
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(6px);
+  box-shadow: 
+      0 0 12px rgba(200,150,255,0.35),
+      inset 0 0 8px rgba(180,120,255,0.25);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+#site-menu a::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0%;
+  height: 2px;
+  background: rgba(225,190,255,0.85);
+  box-shadow: 0 0 10px rgba(200,150,255,0.8);
+  border-radius: 2px;
+  transition: width 0.28s ease;
+}
+
+#site-menu a:hover::after {
+  width: 80%;
 }
 
 /* ============================
-   MOBILE MENU BUTTON (hidden on desktop)
+   MOBILE
 ============================ */
 #menu-toggle {
   display: none;
 }
 
-/* ============================
-   MOBILE STYLES
-============================ */
 @media (max-width: 768px) {
 
   #site-menu {
@@ -143,7 +165,6 @@ h1, h2, h3, h4 {
     font-size: 17px;
   }
 
-  /* Botón redondo */
   #menu-toggle {
     display: block;
     position: fixed;
@@ -181,43 +202,4 @@ h1, h2, h3, h4 {
   #menu-toggle.open span:nth-child(3) {
     transform: translateY(-9px) rotate(-45deg);
   }
-}
-
-/* ============================
-   HOVER MODERNO (DESKTOP + MOBILE)
-============================ */
-
-#site-menu a {
-  position: relative;
-  padding: 6px 14px;
-  border-radius: 14px;
-  transition: 0.28s ease;
-}
-
-#site-menu a:hover {
-  background: rgba(255,255,255,0.12);
-  backdrop-filter: blur(6px);
-  box-shadow:
-      0 0 12px rgba(200,150,255,0.35),
-      inset 0 0 8px rgba(180,120,255,0.25);
-  color: #fff;
-  transform: translateY(-2px);
-}
-
-#site-menu a::after {
-  content: "";
-  position: absolute;
-  bottom: -3px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0%;
-  height: 2px;
-  background: rgba(225,190,255,0.85);
-  box-shadow: 0 0 10px rgba(200,150,255,0.8);
-  border-radius: 2px;
-  transition: width 0.28s ease;
-}
-
-#site-menu a:hover::after {
-  width: 80%;
 }
