@@ -1,4 +1,6 @@
-/* GLOBAL SCRIPT: MENU + STARS + PARALLAX */
+/* ================================
+   GLOBAL SCRIPT: MENU + STARS + PARALLAX + SHAKE INACTIVO
+================================ */
 (function(){
   'use strict';
 
@@ -22,9 +24,11 @@
 
   if(toggle){
     toggle.addEventListener('click', ()=>{
-      menu.classList.contains('mobile-open') ? closeMenu() : openMenu();
+      if(menu.classList.contains('mobile-open')) closeMenu();
+      else openMenu();
     });
 
+    // Cerrar al hacer clic en un link
     menu.querySelectorAll('a').forEach(a=>{
       a.addEventListener('click', ()=>{
         if(window.innerWidth < 768) closeMenu();
@@ -35,8 +39,8 @@
   /* ======================
         STARFIELD
   ====================== */
-  const STAR_COUNT = Math.min(180, Math.round((window.innerWidth*window.innerHeight)/6000));
-  const starsLayer = document.getElementById("stars-layer"); // <-- CORREGIDO (no crear 2 capas)
+  const STAR_COUNT = Math.min(200, Math.round((window.innerWidth*window.innerHeight)/6000));
+  const starsLayer = document.getElementById("stars-layer");
 
   const stars = [];
 
@@ -48,12 +52,15 @@
     const size = Math.pow(Math.random(),2)*2.6 + 0.7;
     s.style.width = size+'px';
     s.style.height = size+'px';
+
     const x = Math.random()*100;
     const y = Math.random()*100;
     s.style.left = x+'%';
     s.style.top = y+'%';
+
     const hue = rand(260,290);
     s.style.background = `hsla(${hue},60%,85%,${rand(0.7,1)})`;
+
     const dur = rand(2.4,6.8);
     s.style.animation = `twinkle ${dur}s infinite ease-in-out`;
     s.style.animationDelay = `${rand(0,6)}s`;
@@ -67,23 +74,8 @@
   for(let i=0;i<STAR_COUNT;i++) createStar();
 
   /* ======================
-        PARALLAX + SHAKE
+        PARALLAX
   ====================== */
-  let lastActivity = Date.now();
-  let inactivityTimer = null;
-
-  function resetInactivity(){
-    lastActivity = Date.now();
-    starsLayer.classList.remove('shake');
-    if(inactivityTimer) clearTimeout(inactivityTimer);
-
-    inactivityTimer = setTimeout(()=>{
-      starsLayer.classList.add('shake');
-      setTimeout(()=>starsLayer.classList.remove('shake'),800);
-    }, 3000);
-  }
-  resetInactivity();
-
   function moveStars(dx, dy){
     const max = 30;
     stars.forEach(s=>{
@@ -94,6 +86,28 @@
     });
   }
 
+  /* ======================
+        SHAKE INACTIVO
+  ====================== */
+  let inactivityTimer = null;
+
+  function resetInactivity(){
+    starsLayer.classList.remove('shake'); // detener shake al interactuar
+
+    if(inactivityTimer) clearTimeout(inactivityTimer);
+
+    inactivityTimer = setTimeout(()=>{
+      starsLayer.classList.add('shake'); // iniciar shake infinito
+    }, 3000);
+  }
+
+  resetInactivity();
+
+  /* ======================
+        EVENTS
+  ====================== */
+
+  // mouse
   window.addEventListener('mousemove', e=>{
     resetInactivity();
     const dx = (e.clientX - window.innerWidth/2) / (window.innerWidth/2);
@@ -101,6 +115,7 @@
     moveStars(dx, dy);
   });
 
+  // touch
   window.addEventListener('touchmove', e=>{
     resetInactivity();
     const t = e.touches[0];
@@ -109,7 +124,15 @@
     moveStars(dx, dy);
   }, {passive:true});
 
-  /* Device orientation */
+  // clicks, teclas también cuentan como actividad
+  ['click','keydown','touchstart'].forEach(ev=>{
+    window.addEventListener(ev, resetInactivity, {passive:true});
+  });
+
+  /* ======================
+        DEVICE ORIENTATION
+  ====================== */
+
   function enableOrientation(){
     function handler(evt){
       resetInactivity();
@@ -121,20 +144,25 @@
 
     if(typeof DeviceOrientationEvent.requestPermission === 'function'){
       DeviceOrientationEvent.requestPermission()
-        .then(res=>{ if(res==='granted') window.addEventListener('deviceorientation', handler); });
+        .then(res=>{
+          if(res === 'granted')
+            window.addEventListener('deviceorientation', handler);
+        });
     } else {
       window.addEventListener('deviceorientation', handler);
     }
   }
 
   window.addEventListener('click', enableOrientation, {once:true});
-  window.addEventListener('touchstart', enableOrientation, {once:true, passive:true});
+  window.addEventListener('touchstart', enableOrientation, {once:true});
 
-  /* Resize = rebuild stars */
-  let rT = null;
+  /* ======================
+        RESIZE REBUILD
+  ====================== */
+  let resizeTimer = null;
   window.addEventListener('resize', ()=>{
-    clearTimeout(rT);
-    rT = setTimeout(()=>{
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(()=>{
       starsLayer.innerHTML = '';
       stars.length = 0;
       for(let i=0;i<STAR_COUNT;i++) createStar();
