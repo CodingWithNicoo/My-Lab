@@ -232,3 +232,36 @@ main p {
   font-size: 18px;
   opacity: 0.85;
 }
+/* Shake sutil */
+#stars-layer.shake-on .star {
+  animation: softShake 0.65s infinite ease-in-out;
+}
+
+@keyframes softShake {
+  0%   { transform: translate(0,0); }
+  50%  { transform: translate(1.2px, -1.2px); }
+  100% { transform: translate(0,0); }
+}
+
+/* Estrella fugaz */
+.shooting-star {
+  position: fixed;
+  width: 2px;
+  height: 2px;
+  background: white;
+  box-shadow: 0 0 6px white;
+  border-radius: 50%;
+  z-index: -1;
+  animation: shooting 1.6s ease-out forwards;
+}
+
+@keyframes shooting {
+  0% {
+    transform: translateX(0) translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(120vw) translateY(40vh) scale(0.2);
+    opacity: 0;
+  }
+}
