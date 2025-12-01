@@ -1,163 +1,163 @@
 /* ============================================================
-   ⭐ GENERAR ESTRELLAS
+   ⭐ GENERADOR DE ESTRELLAS
 ============================================================ */
 
-const starsLayer = document.getElementById("stars-layer");
-let stars = [];
+const starContainer = document.getElementById("star-container");
+const starCount = 200;
+const stars = [];
 
-function createStars() {
-    const COUNT = 220;
-    starsLayer.innerHTML = "";
-    stars = new Array(COUNT);
+for (let i = 0; i < starCount; i++) {
+    const star = document.createElement("div");
+    star.className = "star";
 
-    for (let i = 0; i < COUNT; i++) {
-        const el = document.createElement("div");
-        el.className = "star";
+    const size = Math.random() * 2 + 1;
+    const posX = Math.random() * 100;
+    const posY = Math.random() * 100;
+    const depth = Math.random() * 0.6 + 0.2;
 
-        const size = (Math.random() ** 2) * 2.3 + 0.6;
-        el.style.width = el.style.height = size + "px";
+    star.style.width = `${size}px`;
+    star.style.height = `${size}px`;
+    star.style.left = `${posX}%`;
+    star.style.top = `${posY}%`;
+    star.dataset.z = depth;
 
-        el.style.top = Math.random() * 100 + "vh";
-        el.style.left = Math.random() * 100 + "vw";
-
-        el.dataset.z = Math.random() * 1.8 + 0.2;
-
-        starsLayer.appendChild(el);
-        stars[i] = el;
-    }
+    starContainer.appendChild(star);
+    stars.push(star);
 }
-
-createStars();
-
 
 
 /* ============================================================
-   ⭐ PARALLAX UNIVERSAL (PC + MÓVIL)
+   ⭐ FUNCIÓN PARALLAX UNIVERSAL
 ============================================================ */
 
 function parallaxMove(dx, dy) {
     const amplitude = 28;
+
     for (const s of stars) {
         const z = s.dataset.z;
         s.style.transform = `translate3d(${dx * amplitude * z}px, ${dy * amplitude * z}px, 0)`;
     }
 }
 
-/* ===== PC (mouse) ===== */
+
+/* ============================================================
+   ⭐ PARALLAX DESKTOP (MOUSE)
+============================================================ */
+
 window.addEventListener("mousemove", e => {
     const dx = (e.clientX / innerWidth) * 2 - 1;
     const dy = (e.clientY / innerHeight) * 2 - 1;
-    stopShake(); resetInactivity();
+    stopShake();
+    resetInactivity();
     parallaxMove(dx, dy);
 });
 
-/* ===== Móvil – Touch ===== */
+
+/* ============================================================
+   ⭐ PARALLAX TOUCH
+============================================================ */
+
 window.addEventListener("touchmove", e => {
     if (!e.touches.length) return;
     const t = e.touches[0];
+
     const dx = (t.clientX / innerWidth) * 2 - 1;
     const dy = (t.clientY / innerHeight) * 2 - 1;
-    stopShake(); resetInactivity();
+
+    stopShake();
+    resetInactivity();
     parallaxMove(dx, dy);
+
 }, { passive: true });
-
-/* ===== Móvil – Giroscopio ===== */
-function enableGyro() {
-    if (typeof DeviceOrientationEvent === "undefined") return;
-
-    function handler(e) {
-        const dx = e.gamma / 45;
-        const dy = e.beta / 45;
-        parallaxMove(dx, dy);
-    }
-
-    if (DeviceOrientationEvent.requestPermission) {
-        // iPhone iOS 13+
-        DeviceOrientationEvent.requestPermission()
-            .then(res => {
-                if (res === "granted") {
-                    window.addEventListener("deviceorientation", handler);
-                }
-            })
-            .catch(console.warn);
-    } else {
-        // Android
-        window.addEventListener("deviceorientation", handler);
-    }
-}
-
-// activar giroscopio tras primer toque
-window.addEventListener("touchstart", enableGyro, { once: true });
 
 
 
 /* ============================================================
-   ⭐ SHAKE SUAVE EN INACTIVIDAD
+   ⭐ PARALLAX GIROSCOPIO (ANDROID + IPHONE)
+   Funciona en Xiaomi, Samsung, Pixel, iPhone, tablets…
+============================================================ */
+
+let gyroEnabled = false;
+
+function handleOrientation(e) {
+    const dx = (e.gamma || 0) / 30;
+    const dy = (e.beta  || 0) / 30;
+    parallaxMove(dx, dy);
+}
+
+function handleMotion(e) {
+    if (!e.accelerationIncludingGravity) return;
+
+    const ax = e.accelerationIncludingGravity.x || 0;
+    const ay = e.accelerationIncludingGravity.y || 0;
+
+    const dx = ax / 10;
+    const dy = ay / 10;
+
+    parallaxMove(dx, dy);
+}
+
+function enableGyroFinal() {
+    if (gyroEnabled) return;
+    gyroEnabled = true;
+
+    console.log("Giroscopio activado");
+
+    if (typeof DeviceOrientationEvent !== "undefined") {
+
+        if (DeviceOrientationEvent.requestPermission) {
+            // iPhone pide permiso
+            DeviceOrientationEvent.requestPermission()
+                .then(res => {
+                    if (res === "granted") {
+                        window.addEventListener("deviceorientation", handleOrientation);
+                    }
+                });
+        } else {
+            // Android ya lo soporta
+            window.addEventListener("deviceorientation", handleOrientation);
+        }
+    }
+
+    // Para Xiaomi que solo envía devicemotion
+    if (typeof DeviceMotionEvent !== "undefined") {
+        window.addEventListener("devicemotion", handleMotion);
+    }
+}
+
+window.addEventListener("touchstart", enableGyroFinal, { once: true });
+window.addEventListener("click", enableGyroFinal, { once: true });
+
+
+
+/* ============================================================
+   ⭐ SISTEMA ANTIBLOQUEO: SHAKE AUTOMÁTICO
 ============================================================ */
 
 let inactivityTimer;
-const waitTime = 3500;
+let shaking = false;
+let shakeInterval;
 
 function startShake() {
-    starsLayer.classList.add("shake-on");
+    if (shaking) return;
+    shaking = true;
+
+    shakeInterval = setInterval(() => {
+        const dx = (Math.random() - 0.5) * 0.6;
+        const dy = (Math.random() - 0.5) * 0.6;
+        parallaxMove(dx, dy);
+    }, 400);
 }
 
 function stopShake() {
-    starsLayer.classList.remove("shake-on");
+    if (!shaking) return;
+    shaking = false;
+    clearInterval(shakeInterval);
 }
 
 function resetInactivity() {
     clearTimeout(inactivityTimer);
-    inactivityTimer = setTimeout(startShake, waitTime);
+    inactivityTimer = setTimeout(startShake, 3000);
 }
 
 resetInactivity();
-
-
-
-/* ============================================================
-   ⭐ ESTRELLAS FUGACES
-============================================================ */
-
-function createShootingStar() {
-    const s = document.createElement("div");
-    s.className = "shooting-star";
-    s.style.top = Math.random() * 60 + "vh";
-    s.style.left = "-10vw";
-    starsLayer.appendChild(s);
-
-    setTimeout(() => s.remove(), 2000);
-}
-
-(function shootingStarLoop() {
-    setTimeout(() => {
-        createShootingStar();
-        shootingStarLoop();
-    }, Math.random() * 4000 + 3000);
-})();
-
-
-
-/* ============================================================
-   ⭐ MENÚ MÓVIL ARREGLADO
-============================================================ */
-
-const toggle = document.getElementById("menu-toggle");
-const menu = document.getElementById("site-menu");
-
-function checkMobileMenu() {
-    if (window.innerWidth <= 768) {
-        menu.classList.add("mobile");
-    } else {
-        menu.classList.remove("mobile", "show");
-        toggle.classList.remove("active");
-    }
-}
-
-checkMobileMenu();
-window.addEventListener("resize", checkMobileMenu);
-
-toggle.addEventListener("click", () => {
-    toggle.classList.toggle("active");
-    menu.classList.toggle("show");
-});
