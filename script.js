@@ -6,48 +6,40 @@ const starsLayer = document.getElementById("stars-layer");
 let stars = [];
 
 function createStars() {
+    const COUNT = 220;
     starsLayer.innerHTML = "";
-    stars = [];
-
-    const COUNT = 220; // más estrellas, efecto más denso
+    stars = new Array(COUNT);
 
     for (let i = 0; i < COUNT; i++) {
-        const s = document.createElement("div");
-        s.className = "star";
+        const el = document.createElement("div");
+        el.className = "star";
 
         const size = (Math.random() ** 2) * 2.3 + 0.6;
-        s.style.width = size + "px";
-        s.style.height = size + "px";
+        el.style.width = el.style.height = size + "px";
 
-        s.style.top = Math.random() * 100 + "vh";
-        s.style.left = Math.random() * 100 + "vw";
+        el.style.top = Math.random() * 100 + "vh";
+        el.style.left = Math.random() * 100 + "vw";
 
-        // profundidad real 3D
-        s.dataset.z = Math.random() * 1.8 + 0.2;
+        el.dataset.z = Math.random() * 1.8 + 0.2;
 
-        starsLayer.appendChild(s);
-        stars.push(s);
+        starsLayer.appendChild(el);
+        stars[i] = el;
     }
 }
 
 createStars();
-
-
 
 /* ============================================================
    ⭐ PARALLAX 3D MEJORADO
 ============================================================ */
 
 function parallaxMove(dx, dy) {
-    const amplitude = 28; // más profundidad
+    const amplitude = 28;
 
-    stars.forEach(s => {
-        const z = parseFloat(s.dataset.z);
-        const tx = dx * amplitude * z;
-        const ty = dy * amplitude * z;
-
-        s.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
-    });
+    for (const s of stars) {
+        const z = s.dataset.z;
+        s.style.transform = `translate3d(${dx * amplitude * z}px, ${dy * amplitude * z}px, 0)`;
+    }
 }
 
 function handleMove(x, y) {
@@ -65,10 +57,8 @@ window.addEventListener("touchmove", e => {
     handleMove(t.clientX, t.clientY);
 }, { passive: true });
 
-
-
 /* ============================================================
-   ⭐ SHAKE SUAVE EN INACTIVIDAD
+   ⭐ SHAKE EN INACTIVIDAD
 ============================================================ */
 
 let inactivityTimer;
@@ -89,8 +79,6 @@ function resetInactivity() {
 
 resetInactivity();
 
-
-
 /* ============================================================
    ⭐ ESTRELLAS FUGACES
 ============================================================ */
@@ -98,33 +86,38 @@ resetInactivity();
 function createShootingStar() {
     const s = document.createElement("div");
     s.className = "shooting-star";
-
     s.style.top = Math.random() * 60 + "vh";
-    s.style.left = "-10vw"; // empieza fuera de pantalla
-
+    s.style.left = "-10vw";
     starsLayer.appendChild(s);
 
-    setTimeout(() => s.remove(), 2000); // eliminar después de animar
+    setTimeout(() => s.remove(), 2000);
 }
 
-function shootingStarLoop() {
-    const delay = Math.random() * 4000 + 3000; // entre 3 y 7 segundos
+(function shootingStarLoop() {
     setTimeout(() => {
         createShootingStar();
         shootingStarLoop();
-    }, delay);
-}
-
-shootingStarLoop();
-
-
+    }, Math.random() * 4000 + 3000);
+})();
 
 /* ============================================================
-   ⭐ MENÚ MÓVIL
+   ⭐ MENÚ MÓVIL ARREGLADO
 ============================================================ */
 
 const toggle = document.getElementById("menu-toggle");
 const menu = document.getElementById("site-menu");
+
+function checkMobileMenu() {
+    if (window.innerWidth <= 768) {
+        menu.classList.add("mobile");
+    } else {
+        menu.classList.remove("mobile", "show");
+        toggle.classList.remove("active");
+    }
+}
+
+checkMobileMenu();
+window.addEventListener("resize", checkMobileMenu);
 
 toggle.addEventListener("click", () => {
     toggle.classList.toggle("active");
