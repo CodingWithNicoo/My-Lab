@@ -29,36 +29,70 @@ function createStars() {
 
 createStars();
 
+
+
 /* ============================================================
-   ⭐ PARALLAX 3D MEJORADO
+   ⭐ PARALLAX UNIVERSAL (PC + MÓVIL)
 ============================================================ */
 
 function parallaxMove(dx, dy) {
     const amplitude = 28;
-
     for (const s of stars) {
         const z = s.dataset.z;
         s.style.transform = `translate3d(${dx * amplitude * z}px, ${dy * amplitude * z}px, 0)`;
     }
 }
 
-function handleMove(x, y) {
-    const dx = (x - innerWidth / 2) / (innerWidth / 2);
-    const dy = (y - innerHeight / 2) / (innerHeight / 2);
-
-    resetInactivity();
-    stopShake();
+/* ===== PC (mouse) ===== */
+window.addEventListener("mousemove", e => {
+    const dx = (e.clientX / innerWidth) * 2 - 1;
+    const dy = (e.clientY / innerHeight) * 2 - 1;
+    stopShake(); resetInactivity();
     parallaxMove(dx, dy);
-}
+});
 
-window.addEventListener("mousemove", e => handleMove(e.clientX, e.clientY));
+/* ===== Móvil – Touch ===== */
 window.addEventListener("touchmove", e => {
+    if (!e.touches.length) return;
     const t = e.touches[0];
-    handleMove(t.clientX, t.clientY);
+    const dx = (t.clientX / innerWidth) * 2 - 1;
+    const dy = (t.clientY / innerHeight) * 2 - 1;
+    stopShake(); resetInactivity();
+    parallaxMove(dx, dy);
 }, { passive: true });
 
+/* ===== Móvil – Giroscopio ===== */
+function enableGyro() {
+    if (typeof DeviceOrientationEvent === "undefined") return;
+
+    function handler(e) {
+        const dx = e.gamma / 45;
+        const dy = e.beta / 45;
+        parallaxMove(dx, dy);
+    }
+
+    if (DeviceOrientationEvent.requestPermission) {
+        // iPhone iOS 13+
+        DeviceOrientationEvent.requestPermission()
+            .then(res => {
+                if (res === "granted") {
+                    window.addEventListener("deviceorientation", handler);
+                }
+            })
+            .catch(console.warn);
+    } else {
+        // Android
+        window.addEventListener("deviceorientation", handler);
+    }
+}
+
+// activar giroscopio tras primer toque
+window.addEventListener("touchstart", enableGyro, { once: true });
+
+
+
 /* ============================================================
-   ⭐ SHAKE EN INACTIVIDAD
+   ⭐ SHAKE SUAVE EN INACTIVIDAD
 ============================================================ */
 
 let inactivityTimer;
@@ -78,6 +112,8 @@ function resetInactivity() {
 }
 
 resetInactivity();
+
+
 
 /* ============================================================
    ⭐ ESTRELLAS FUGACES
@@ -99,6 +135,8 @@ function createShootingStar() {
         shootingStarLoop();
     }, Math.random() * 4000 + 3000);
 })();
+
+
 
 /* ============================================================
    ⭐ MENÚ MÓVIL ARREGLADO
