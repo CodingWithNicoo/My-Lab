@@ -1,24 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inicio</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Inicio - Galaxia</title>
   <link rel="stylesheet" href="style.css">
   <script defer src="script.js"></script>
 </head>
-
 <body>
-  <div id="background-layer"></div>
-  <div id="stars-layer"></div>
+  <div id="background-layer" aria-hidden="true"></div>
+  <div id="stars-layer" aria-hidden="true"></div>
 
   <!-- Botón menú móvil -->
-  <div id="menu-toggle" aria-label="Abrir menú">
+  <button id="menu-toggle" aria-label="Abrir menu" aria-expanded="false">
     <span></span><span></span><span></span>
-  </div>
+  </button>
 
   <!-- Menú -->
-  <nav id="site-menu">
+  <nav id="site-menu" aria-label="Menú principal">
     <a href="index.html">Home</a>
     <a href="projects.html">Projects</a>
     <a href="contact.html">Contact</a>
@@ -29,6 +28,5 @@
     <h1>Bienvenido a la Galaxia</h1>
     <p>Explora mis proyectos y viaja a través de un universo digital.</p>
   </main>
-
 </body>
 </html>
