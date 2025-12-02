@@ -1,111 +1,214 @@
-/* ============================================================
-   ⭐ GENERADOR DE ESTRELLAS
-============================================================ */
-
-const starContainer = document.getElementById("stars-layer");
-const starCount = 200;
-const stars = [];
-
-for (let i = 0; i < starCount; i++) {
-    const star = document.createElement("div");
-    star.className = "star";
-
-    const size = Math.random() * 2 + 1;
-    const posX = Math.random() * 100;
-    const posY = Math.random() * 100;
-    const depth = Math.random() * 0.6 + 0.2;
-
-    star.style.width = `${size}px`;
-    star.style.height = `${size}px`;
-    star.style.left = `${posX}%`;
-    star.style.top = `${posY}%`;
-    star.dataset.z = depth;
-
-    starContainer.appendChild(star);
-    stars.push(star);
+/* ------------------------------
+   Fuente y ajustes globales
+------------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-
-/* ============================================================
-   ⭐ PARALLAX
-============================================================ */
-
-function parallaxMove(dx, dy) {
-    const amplitude = 28;
-
-    for (const s of stars) {
-        const z = s.dataset.z;
-        s.style.transform = `translate3d(${dx * amplitude * z}px, ${dy * amplitude * z}px, 0)`;
-    }
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  font-family: 'Inter', sans-serif;
+  background: transparent;
+  color: #e5c9ff;
+  text-align: center;
+  user-select: none;
 }
 
-
-/* Desktop: Mouse */
-window.addEventListener("mousemove", e => {
-    const dx = (e.clientX / innerWidth) * 2 - 1;
-    const dy = (e.clientY / innerHeight) * 2 - 1;
-    parallaxMove(dx, dy);
-});
-
-
-/* ============================================================
-   ⭐ MÓVIL: GIROSCOPIO (iOS + Android)
-============================================================ */
-
-const motionButton = document.getElementById("enable-motion");
-
-function handleOrientation(e) {
-    const dx = (e.gamma || 0) / 25;
-    const dy = (e.beta  || 0) / 25;
-    parallaxMove(dx, dy);
+body {
+  position: relative;
 }
 
-function handleMotion(e) {
-    if (!e.accelerationIncludingGravity) return;
-
-    const dx = e.accelerationIncludingGravity.x / 10;
-    const dy = e.accelerationIncludingGravity.y / 10;
-    parallaxMove(dx, dy);
+h1, h2, h3, p, a {
+  text-shadow: 0 0 8px rgba(200, 160, 255, 0.7);
 }
 
-function activateMotion() {
-    // iOS requiere permiso
-    if (typeof DeviceOrientationEvent !== "undefined" &&
-        typeof DeviceOrientationEvent.requestPermission === "function") {
+/* ------------------------------
+   CAPA FONDO PRINCIPAL
+------------------------------- */
 
-        DeviceOrientationEvent.requestPermission().then(res => {
-            if (res === "granted") {
-                startGyro();
-                motionButton.style.display = "none";
-            } else {
-                alert("Permiso denegado");
-            }
-        });
-
-    } else {
-        // Android
-        startGyro();
-        motionButton.style.display = "none";
-    }
+#background-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background: radial-gradient(circle at center, #1a0427, #0d0215 70%);
 }
 
-function startGyro() {
-    window.addEventListener("deviceorientation", handleOrientation, true);
-    window.addEventListener("devicemotion", handleMotion, true);
+#background-layer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px) 0 0,
+    radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px) 25px 25px;
+  background-size: 50px 50px;
+  opacity: 0.10;
+  mix-blend-mode: screen;
 }
 
-motionButton.addEventListener("click", activateMotion);
+/* ------------------------------
+   ESTRELLAS
+------------------------------- */
 
+#stars-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
 
-/* ============================================================
-   ⭐ MENÚ MÓVIL
-============================================================ */
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: twinkle 3s infinite ease-in-out;
+}
 
-const menuToggle = document.getElementById("menu-toggle");
-const siteMenu = document.getElementById("site-menu");
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50%      { opacity: 1; }
+}
 
-menuToggle.addEventListener("click", () => {
-    menuToggle.classList.toggle("active");
-    siteMenu.classList.toggle("mobile");
-    siteMenu.classList.toggle("show");
-});
+/* ------------------------------
+   BOTÓN ACTIVAR GIROSCOPIO
+------------------------------- */
+
+#enable-motion {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 22px;
+  font-size: 15px;
+  background: rgba(255,255,255,0.14);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  backdrop-filter: blur(10px);
+  z-index: 9999;
+  display: none;
+}
+
+@media (pointer: coarse) {
+  #enable-motion {
+    display: block;
+  }
+}
+
+/* ------------------------------
+   MENÚ DESKTOP
+------------------------------- */
+
+#site-menu {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 30px;
+  background: rgba(255,255,255,0.08);
+  padding: 12px 25px;
+  border-radius: 50px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 25px rgba(160,0,255,0.25);
+  z-index: 20;
+}
+
+#site-menu a {
+  color: #e5c9ff;
+  text-decoration: none;
+  transition: 0.25s;
+}
+
+#site-menu a:hover {
+  color: white;
+  text-shadow: 0 0 12px #e7caff;
+  transform: translateY(-2px);
+}
+
+/* ------------------------------
+   MENÚ MÓVIL
+------------------------------- */
+
+#menu-toggle {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 50px;
+  height: 50px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 50%;
+  backdrop-filter: blur(10px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+  z-index: 999;
+}
+
+#menu-toggle span {
+  width: 60%;
+  height: 3px;
+  background: #f1d9ff;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+#menu-toggle.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+#menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+#menu-toggle.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+#site-menu.mobile {
+  position: fixed;
+  bottom: 100px;
+  right: 25px;
+  flex-direction: column;
+  background: rgba(255,255,255,0.1);
+  padding: 20px;
+  gap: 18px;
+  border-radius: 15px;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.35s;
+}
+
+#site-menu.mobile.show {
+  display: flex;
+  opacity: 1;
+}
+
+@media(max-width: 768px) {
+  #site-menu { display: none; }
+  #menu-toggle { display: flex; }
+}
+
+/* ------------------------------
+   CONTENIDO
+------------------------------- */
+
+main {
+  margin-top: 160px;
+  padding: 20px;
+}
+
+main h1 {
+  font-size: 42px;
+}
+
+main p {
+  font-size: 18px;
+  opacity: 0.85;
+}
