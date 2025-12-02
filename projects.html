@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Proyectos</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Projects - Galaxia</title>
   <link rel="stylesheet" href="style.css">
   <script defer src="script.js"></script>
 </head>
-
 <body>
-  <div id="background-layer"></div>
-  <div id="stars-layer"></div>
+  <div id="background-layer" aria-hidden="true"></div>
+  <div id="stars-layer" aria-hidden="true"></div>
 
-  <div id="menu-toggle" aria-label="Abrir menú">
+  <button id="menu-toggle" aria-label="Abrir menu" aria-expanded="false">
     <span></span><span></span><span></span>
-  </div>
+  </button>
 
-  <nav id="site-menu">
+  <nav id="site-menu" aria-label="Menú principal">
     <a href="index.html">Home</a>
     <a href="projects.html">Projects</a>
     <a href="contact.html">Contact</a>
@@ -24,9 +23,20 @@
   </nav>
 
   <main>
-    <h1>Mis Proyectos</h1>
-    <p>Aquí verás algunos de mis trabajos y creaciones.</p>
-  </main>
+    <h1>Proyectos</h1>
+    <p>Aquí verás algunos de mis trabajos.</p>
 
+    <!-- ejemplos -->
+    <section class="cards">
+      <article class="card">
+        <h2>Proyecto A</h2>
+        <p>Descripción breve del proyecto A.</p>
+      </article>
+      <article class="card">
+        <h2>Proyecto B</h2>
+        <p>Descripción breve del proyecto B.</p>
+      </article>
+    </section>
+  </main>
 </body>
 </html>
