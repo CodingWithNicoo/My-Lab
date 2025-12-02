@@ -2,7 +2,7 @@
    ⭐ GENERADOR DE ESTRELLAS
 ============================================================ */
 
-const starContainer = document.getElementById("star-container");
+const starContainer = document.getElementById("star-layer");
 const starCount = 200;
 const stars = [];
 
