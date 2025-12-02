@@ -2,7 +2,7 @@
    ⭐ GENERADOR DE ESTRELLAS
 ============================================================ */
 
-const starContainer = document.getElementById("star-layer");
+const starContainer = document.getElementById("stars-layer"); // ← CORREGIDO
 const starCount = 200;
 const stars = [];
 
@@ -74,7 +74,6 @@ window.addEventListener("touchmove", e => {
 
 /* ============================================================
    ⭐ PARALLAX GIROSCOPIO (ANDROID + IPHONE)
-   Funciona en Xiaomi, Samsung, Pixel, iPhone, tablets…
 ============================================================ */
 
 let gyroEnabled = false;
