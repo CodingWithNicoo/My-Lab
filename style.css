@@ -1,178 +1,132 @@
 /* ------------------------------
-   Fuente y ajustes globales
+   Reset / global
 ------------------------------- */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html, body {
-  width: 100%;
-  height: 100%;
-  overflow-x: hidden;
-  font-family: 'Inter', sans-serif;
-  background: transparent;
-  color: #e5c9ff;
-  text-align: center;
-  user-select: none;
-}
-
-body {
-  position: relative;
-}
+* { margin:0; padding:0; box-sizing:border-box; }
+html,body { width:100%; height:100%; font-family: 'Inter', sans-serif; background:transparent; color:#e5c9ff; text-align:center; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+body { position:relative; overflow-x:hidden; }
 
 /* Glow general del texto */
-h1, h2, h3, p, a {
-  text-shadow: 0 0 8px rgba(200, 160, 255, 0.7);
-}
+h1,h2,h3,p,a { text-shadow: 0 0 8px rgba(200,160,255,0.7); }
 
 /* ------------------------------
-   CAPA DE FONDO PRINCIPAL
+   Fondo principal
 ------------------------------- */
-
 #background-layer {
   position: fixed;
   inset: 0;
-  z-index: -2;
+  z-index: -3;
   background: radial-gradient(circle at center, #1a0427, #0d0215 70%);
-  filter: url(#noise-filter);
-  overflow: hidden;
+  overflow:hidden;
 }
-
-/* Ruido procedural mediante pseudo-elemento */
-#background-layer::before {
-  content: "";
-  position: absolute;
-  inset: 0;
+#background-layer::before{
+  content:"";
+  position:absolute; inset:0;
   background:
-    radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px) 0 0,
-    radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px) 25px 25px;
-  background-size: 50px 50px;
-  opacity: 0.10;
-  mix-blend-mode: screen;
+    radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px) 0 0,
+    radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px) 25px 25px;
+  background-size:50px 50px;
+  opacity:0.10; mix-blend-mode:screen;
 }
 
 /* ------------------------------
-   CAPA DE ESTRELLAS (JS)
+   Capa de estrellas (JS)
 ------------------------------- */
 #stars-layer {
   position: fixed;
   inset: 0;
-  z-index: -1;
-  pointer-events: none;
+  z-index: -2;
+  pointer-events: none; /* importante: no bloquear clicks */
   overflow: hidden;
+  transform: translateZ(0);
 }
 
-/* Estrellas individuales */
-.star {
-  position: absolute;
-  width: 2px;
-  height: 2px;
+/* Estrella */
+.star{
+  position:absolute;
+  width:2px; height:2px;
   background: white;
   border-radius: 50%;
   opacity: 0.8;
+  will-change: transform, opacity;
   animation: twinkle 3s infinite ease-in-out;
+  box-shadow: 0 0 6px rgba(255,255,255,0.07);
 }
 
-/* Twinkle suave */
+/* Twinkle */
 @keyframes twinkle {
-  0%, 100% { opacity: 0.3; }
-  50%      { opacity: 1; }
+  0%,100%{ opacity:0.3; }
+  50%{ opacity:1; }
 }
 
-/* Glitch para inactividad */
-@keyframes glitch {
-  0%   { transform: translate(0, 0); opacity: 1; }
-  20%  { transform: translate(-2px, 1px); opacity: 0.9; }
-  40%  { transform: translate(3px, -1px); opacity: 1; }
-  60%  { transform: translate(-1px, 2px); opacity: 0.85; }
-  80%  { transform: translate(2px, -2px); opacity: 1; }
-  100% { transform: translate(0, 0); opacity: 1; }
+/* Shake (aplicado por clase) */
+#stars-layer.shake-on .star {
+  animation: twinkle 3s infinite ease-in-out, softShake 0.65s infinite ease-in-out;
+}
+@keyframes softShake {
+  0%{ transform: translate(0,0); } 50%{ transform: translate(1px,-1px); } 100%{ transform:translate(0,0); }
 }
 
-.glitch-active .star {
-  animation: twinkle 3s infinite ease-in-out, glitch 0.2s infinite;
+/* Shooting star */
+.shooting-star{
+  position: fixed;
+  width:2px; height:2px;
+  background:white; border-radius:50%;
+  box-shadow:0 0 6px white; z-index:-1;
+  animation: shooting 1.6s ease-out forwards;
+}
+@keyframes shooting {
+  0%{ transform: translate(0,0) scale(1); opacity:1; }
+  100%{ transform: translate(120vw, 40vh) scale(0.2); opacity:0; }
 }
 
 /* ------------------------------
-   MENÚ DESKTOP
+   Menú principal
 ------------------------------- */
-
-#site-menu {
+#site-menu{
   position: fixed;
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  display: flex;
-  gap: 30px;
+  display:flex;
+  gap:30px;
   background: rgba(255,255,255,0.08);
   padding: 12px 25px;
   border-radius: 50px;
   backdrop-filter: blur(12px);
   box-shadow: 0 0 25px rgba(160,0,255,0.25);
-  z-index: 20;
+  z-index: 30;
 }
-
-#site-menu a {
-  color: #e5c9ff;
-  font-weight: 500;
-  text-decoration: none;
-  transition: 0.25s ease;
+#site-menu a{
+  color:#e5c9ff; font-weight:500; text-decoration:none; transition:0.25s ease;
 }
+#site-menu a:hover{ color:white; text-shadow:0 0 12px #e7caff; transform: translateY(-2px); }
 
-/* Hover suave moderno */
-#site-menu a:hover {
-  color: white;
-  text-shadow: 0 0 12px #e7caff;
-  transform: translateY(-2px);
-}
-
-/* ------------------------------
-   MENÚ MÓVIL (oculto en desktop)
-------------------------------- */
-
-#menu-toggle {
+/* Botón mobile */
+#menu-toggle{
   position: fixed;
   bottom: 25px;
   right: 25px;
-  width: 50px;
-  height: 50px;
-  background: rgba(255,255,255,0.15);
-  border-radius: 50%;
+  width:50px; height:50px;
+  background: rgba(255,255,255,0.12);
+  border-radius:50%;
   backdrop-filter: blur(10px);
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 4px;
-  cursor: pointer;
-  z-index: 30;
-  box-shadow: 0 0 18px rgba(180, 80, 255, 0.4);
-  transition: transform 0.25s ease;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  cursor:pointer; z-index:40;
+  box-shadow: 0 0 18px rgba(180,80,255,0.4);
+  border: none;
 }
+#menu-toggle span{
+  display:block; width:60%; height:3px; background:#f1d9ff; border-radius:10px; transition:0.3s ease;
+}
+#menu-toggle.active span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
+#menu-toggle.active span:nth-child(2){ opacity: 0; }
+#menu-toggle.active span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
 
-#menu-toggle span {
-  width: 60%;
-  height: 3px;
-  background: #f1d9ff;
-  border-radius: 10px;
-  transition: 0.3s ease;
-}
-
-/* Animación hamburguesa → X */
-#menu-toggle.active span:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
-}
-#menu-toggle.active span:nth-child(2) {
-  opacity: 0;
-}
-#menu-toggle.active span:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
-}
-
-/* Menú móvil */
-#site-menu.mobile {
+/* Mobile menu styles */
+#site-menu.mobile{
   position: fixed;
   bottom: 100px;
   right: 25px;
@@ -181,87 +135,34 @@ h1, h2, h3, p, a {
   transform: none;
   flex-direction: column;
   gap: 18px;
-  padding: 25px 20px;
+  padding: 20px;
   border-radius: 20px;
   display: none;
   opacity: 0;
-  transition: opacity 0.35s ease;
+  transition: opacity 0.35s ease, transform 0.25s ease;
+  z-index: 35;
+}
+#site-menu.mobile.show{
+  display:flex; opacity:1;
 }
 
-#site-menu.mobile.show {
-  display: flex;
-  opacity: 1;
-}
-
-/* ------------------------------
-   RESPONSIVE
-------------------------------- */
-
-@media (max-width: 768px) {
-
-  /* Ocultar menú desktop */
-  #site-menu {
-    display: none;
-  }
-
-  /* Mostrar menú móvil */
-  #menu-toggle {
-    display: flex;
-  }
-
-  #site-menu.mobile a {
-    font-size: 18px;
-  }
+/* Responsive */
+@media (max-width: 768px){
+  #site-menu{ display:none; }
+  #menu-toggle{ display:flex; }
+  #site-menu.mobile a{ font-size:18px; }
 }
 
 /* ------------------------------
-   CONTENIDO
+   Contenido
 ------------------------------- */
+main{ margin-top:160px; padding:20px; min-height:60vh; }
+main h1{ font-size:42px; margin-bottom:12px; }
+main p{ font-size:18px; opacity:0.85; }
 
-main {
-  margin-top: 160px;
-  padding: 20px;
-}
+/* Simple cards for projects */
+.cards{ display:grid; gap:16px; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); padding:20px; max-width:1100px; margin: 20px auto; }
+.card{ background: rgba(255,255,255,0.03); padding:18px; border-radius:12px; box-shadow: 0 4px 18px rgba(0,0,0,0.4); }
 
-main h1 {
-  font-size: 42px;
-  margin-bottom: 12px;
-}
-
-main p {
-  font-size: 18px;
-  opacity: 0.85;
-}
-/* Shake sutil */
-#stars-layer.shake-on .star {
-  animation: softShake 0.65s infinite ease-in-out;
-}
-
-@keyframes softShake {
-  0%   { transform: translate(0,0); }
-  50%  { transform: translate(1.2px, -1.2px); }
-  100% { transform: translate(0,0); }
-}
-
-/* Estrella fugaz */
-.shooting-star {
-  position: fixed;
-  width: 2px;
-  height: 2px;
-  background: white;
-  box-shadow: 0 0 6px white;
-  border-radius: 50%;
-  z-index: -1;
-  animation: shooting 1.6s ease-out forwards;
-}
-
-@keyframes shooting {
-  0% {
-    transform: translateX(0) translateY(0) scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(120vw) translateY(40vh) scale(0.2);
-    opacity: 0;
-  }
-}
+/* utility */
+a { color: inherit; }
