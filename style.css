@@ -29,7 +29,6 @@ h1, h2, h3, p, a {
 /* ------------------------------
    CAPA FONDO PRINCIPAL
 ------------------------------- */
-
 #background-layer {
   position: fixed;
   inset: 0;
@@ -52,7 +51,6 @@ h1, h2, h3, p, a {
 /* ------------------------------
    ESTRELLAS
 ------------------------------- */
-
 #stars-layer {
   position: fixed;
   inset: 0;
@@ -77,7 +75,6 @@ h1, h2, h3, p, a {
 /* ------------------------------
    BOTÓN ACTIVAR GIROSCOPIO
 ------------------------------- */
-
 #enable-motion {
   position: fixed;
   bottom: 20px;
@@ -103,7 +100,6 @@ h1, h2, h3, p, a {
 /* ------------------------------
    MENÚ DESKTOP
 ------------------------------- */
-
 #site-menu {
   position: fixed;
   top: 20px;
@@ -134,7 +130,6 @@ h1, h2, h3, p, a {
 /* ------------------------------
    MENÚ MÓVIL
 ------------------------------- */
-
 #menu-toggle {
   position: fixed;
   bottom: 25px;
@@ -198,7 +193,6 @@ h1, h2, h3, p, a {
 /* ------------------------------
    CONTENIDO
 ------------------------------- */
-
 main {
   margin-top: 160px;
   padding: 20px;
@@ -211,4 +205,77 @@ main h1 {
 main p {
   font-size: 18px;
   opacity: 0.85;
+}
+
+/* ------------------------------
+   PROJECT CARDS – GALAXIA
+------------------------------- */
+
+.cards {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2.5rem;
+  padding: 20px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  padding-bottom: 18px;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 0 20px rgba(150, 70, 255, 0.3);
+  transition: transform .25s ease, box-shadow .25s ease;
+  overflow: hidden;
+  text-align: left;
+}
+
+/* Hover */
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 30px rgba(200, 130, 255, 0.45);
+}
+
+/* Imagen */
+.card img.card-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+/* Contenido */
+.card-content {
+  padding: 18px 20px;
+}
+
+.card h2 {
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+.card p {
+  font-size: 15px;
+  opacity: 0.9;
+}
+
+/* Botón */
+.card-btn {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 10px 16px;
+  background: rgba(180, 120, 255, 0.25);
+  border-radius: 10px;
+  text-decoration: none;
+  color: #f7e9ff;
+  font-weight: 600;
+  backdrop-filter: blur(6px);
+  transition: 0.25s;
+  box-shadow: 0 0 12px rgba(200, 130, 255, 0.35);
+}
+
+.card-btn:hover {
+  background: rgba(200, 160, 255, 0.45);
+  box-shadow: 0 0 20px rgba(220, 180, 255, 0.6);
+  transform: translateY(-2px);
 }
