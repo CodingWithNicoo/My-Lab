@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini CRM PRO - Galaxia</title>
+  <link rel="stylesheet" href="crm-pro.css">
+</head>
+<body>
+
+  <h1>Mini CRM PRO</h1>
+  <p>Gestión completa de contactos con estilo galaxia.</p>
+
+  <!-- PANEL PRINCIPAL CENTRADO -->
+  <div class="main-container">
+
+    <!-- FORMULARIO -->
+    <section class="form-card">
+      <h2>Contacto</h2>
+
+      <form id="contactForm">
+        <input type="hidden" id="contactId">
+
+        <div class="row">
+          <input type="text" id="name" placeholder="Nombre completo" required>
+          <input type="email" id="email" placeholder="Correo" required>
+        </div>
+
+        <div class="row">
+          <input type="text" id="phone" placeholder="Teléfono">
+          <input type="text" id="tags" placeholder="Etiquetas (ej: vip, cliente)">
+        </div>
+
+        <select id="category">
+          <option value="Personal">Personal</option>
+          <option value="Trabajo">Trabajo</option>
+          <option value="Cliente">Cliente</option>
+          <option value="Otro">Otro</option>
+        </select>
+
+        <textarea id="notes" placeholder="Notas adicionales"></textarea>
+
+        <label class="upload">
+          📷 Foto:
+          <input type="file" id="avatar" accept="image/*">
+        </label>
+
+        <button type="submit" class="primary">Guardar contacto</button>
+      </form>
+    </section>
+
+    <!-- BUSCADOR -->
+    <section class="search-box">
+      <input type="text" id="search" placeholder="Buscar contacto...">
+    </section>
+
+    <!-- BOTONES AVANZADOS -->
+    <div class="tools">
+      <button onclick="exportContacts()">⬇ Exportar JSON</button>
+      <label class="import-btn">⬆ Importar JSON
+        <input type="file" id="importFile" accept=".json">
+      </label>
+    </div>
+
+    <!-- LISTA DE CONTACTOS -->
+    <section class="contact-list" id="contactList"></section>
+
+  </div>
+
+  <!-- MODAL DETALLES -->
+  <div id="modal" class="modal hidden">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal()">✖</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="crm-pro.js"></script>
+</body>
+</html>
