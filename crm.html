@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini CRM</title>
+  <link rel="stylesheet" href="crm.css">
+</head>
+<body>
+
+  <h1>Mini CRM</h1>
+  <p>Easily manage and organise your contacts.</p>
+
+  <!-- FORMULARIO -->
+  <section class="form-card">
+    <h2>Add or edit contact</h2>
+
+    <form id="contactForm">
+      <input type="hidden" id="contactId">
+
+      <input type="text" id="name" placeholder="Nombre completo" required>
+      <input type="email" id="email" placeholder="Correo" required>
+      <input type="text" id="phone" placeholder="Teléfono">
+      <textarea id="notes" placeholder="Notas adicionales"></textarea>
+
+      <button type="submit">Save contact</button>
+    </form>
+  </section>
+
+  <!-- BUSCADOR -->
+  <section class="search-box">
+    <input type="text" id="search" placeholder="Buscar contacto...">
+  </section>
+
+  <!-- LISTA DE CONTACTOS -->
+  <section class="contact-list" id="contactList"></section>
+
+  <script src="crm.js"></script>
+</body>
+</html>
